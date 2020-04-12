@@ -1,11 +1,9 @@
 ﻿namespace Analogy.LogViewer.Github.Data_Types
 {
-    public enum GitOperationType
+    public enum GitHubOperationType
     { 
-        History,
-        Fetch,
-        Merge,
-        Pull,
+        MainPage,
+        Releases,
 
     }
 

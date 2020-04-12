@@ -28,21 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gitPullUC1 = new GitPullUC();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // gitPullUC1
-            // 
-            this.gitPullUC1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gitPullUC1.Location = new System.Drawing.Point(3, 3);
-            this.gitPullUC1.Name = "gitPullUC1";
-            this.gitPullUC1.Size = new System.Drawing.Size(786, 415);
-            this.gitPullUC1.TabIndex = 0;
             // 
             // tabControl1
             // 
@@ -57,7 +48,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.gitPullUC1);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -92,7 +82,6 @@
 
         #endregion
 
-        private GitPullUC gitPullUC1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;

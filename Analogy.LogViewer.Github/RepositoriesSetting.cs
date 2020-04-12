@@ -6,19 +6,19 @@ namespace Analogy.LogViewer.Github
     public class RepositoriesSetting
     {
 
-        public List<RepositorySetting> Repositories { get; set; }
+        public List<string> Repositories { get; set; }
 
         public RepositoriesSetting()
         {
-            Repositories = new List<RepositorySetting>();
+            Repositories = new List<string>();
         }
 
-        public void AddRepository(RepositorySetting repository)
+        public void AddRepository(string repository)
         {
             if (!Repositories.Contains(repository))
                 Repositories.Add(repository);
         }
-        public void DeleteRepository(RepositorySetting repository)
+        public void DeleteRepository(string repository)
         {
             if (Repositories.Contains(repository))
                 Repositories.Remove(repository);

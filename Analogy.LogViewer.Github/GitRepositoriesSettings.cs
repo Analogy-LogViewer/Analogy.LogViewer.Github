@@ -24,12 +24,9 @@ namespace Analogy.LogViewer.Github
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtRepository.Text) || Directory.Exists(txtRepository.Text))
+            if (!string.IsNullOrEmpty(txtRepository.Text))
             {
-                FetchType f = rbCount.Checked ? FetchType.Count : FetchType.DateTime;
-                RepositorySetting rs = new RepositorySetting(txtRepository.Text, (int)nudCommits.Value,
-                    dateTimePicker1.Value, f);
-                UserSettingsManager.UserSettings.RepositoriesSetting.AddRepository(rs);
+                UserSettingsManager.UserSettings.RepositoriesSetting.AddRepository(txtRepository.Text);
                 RefreshList();
             }
         }
@@ -52,7 +49,7 @@ namespace Analogy.LogViewer.Github
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (lstRepositores.SelectedItem is RepositorySetting repo)
+            if (lstRepositores.SelectedItem is string repo)
             {
                 UserSettingsManager.UserSettings.RepositoriesSetting.DeleteRepository(repo);
                 RefreshList();
