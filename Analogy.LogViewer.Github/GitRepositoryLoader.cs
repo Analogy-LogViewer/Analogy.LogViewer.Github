@@ -1,6 +1,7 @@
 ﻿using Analogy.Interfaces;
 using Analogy.LogViewer.Github.Data_Types;
 using Analogy.LogViewer.Github.Managers;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -45,6 +46,15 @@ namespace Analogy.LogViewer.Github
                 try
                 {
                     string data = await Utils.GetAsync(Repository);
+                    //var dictionary = JsonConvert.DeserializeObject(data);
+                    AnalogyLogMessage m = new AnalogyLogMessage();
+                    m.Text = data;
+                    m.Level = AnalogyLogLevel.Event;
+                    m.Source = Repository;
+                    OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, Repository, "Github", ID));
+
+                    string releases = await Utils.GetAsync(Repository + "/releases");
+                    var r = JsonConvert.DeserializeObject(releases);
                 }
                 catch (Exception e)
                 {

@@ -9,7 +9,7 @@ namespace Analogy.LogViewer.Github.IAnalogy
 {
     public class GitHubDataProviderFactory : IAnalogyDataProvidersFactory
     {
-        public Guid FactoryId { get; } = GitHistoryFactory.Id;
+        public Guid FactoryId { get; } = GitHubFactory.Id;
         public string Title => "Repositories";
 
         public IEnumerable<IAnalogyDataProvider> DataProviders
@@ -31,21 +31,5 @@ namespace Analogy.LogViewer.Github.IAnalogy
 
         }
     }
-    //public class GitFetchDataProviderFactory : IAnalogyDataProvidersFactory
-    //{
-    //    public Guid FactoryId { get; } = GitHistoryFactory.Id;
-    //    public string Title => "Repositories Fetches";
 
-    //    public IEnumerable<IAnalogyDataProvider> DataProviders
-    //    {
-    //        get
-    //        {
-    //            foreach (string rs in UserSettingsManager.UserSettings.RepositoriesSetting.Repositories)
-    //            {
-    //                yield return new GitRepositoryLoader(rs, GitHubOperationType.Fetch);
-    //            }
-    //        }
-
-    //    }
-    //}
 }

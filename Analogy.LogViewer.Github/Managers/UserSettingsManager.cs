@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
-using Newtonsoft.Json;
 
 namespace Analogy.LogViewer.Github.Managers
 {
@@ -9,7 +9,7 @@ namespace Analogy.LogViewer.Github.Managers
         private static readonly Lazy<UserSettingsManager> _instance =
             new Lazy<UserSettingsManager>(() => new UserSettingsManager());
         public static UserSettingsManager UserSettings { get; set; } = _instance.Value;
-        private string RepositoriesSettingFile { get; } = "AnalogyGitHistory.Settings";
+        private string RepositoriesSettingFile { get; } = "AnalogyGitHub.Settings";
         public RepositoriesSetting RepositoriesSetting { get; }
 
         public UserSettingsManager()

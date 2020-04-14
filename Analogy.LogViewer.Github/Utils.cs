@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Analogy.LogViewer.Github
@@ -8,15 +7,29 @@ namespace Analogy.LogViewer.Github
     {
         public static async Task<string> GetAsync(string uri)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
+            using (HttpClient client = new HttpClient())
             {
-                return await reader.ReadToEndAsync();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                client.DefaultRequestHeaders.UserAgent.TryParseAdd("Analogy");//Set the User Agent to "request"
+                using (HttpResponseMessage response = await client.GetAsync(uri))
+                {
+                    response.EnsureSuccessStatusCode();
+                    return await response.Content.ReadAsStringAsync();
+                }
             }
+
+            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+            ////Get the headers associated with the request.
+            //request.Headers[HttpRequestHeader.UserAgent] = "Analogy";
+            //request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+
+            //using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+            //using (Stream stream = response.GetResponseStream())
+            //using (StreamReader reader = new StreamReader(stream))
+            //{
+            //    return await reader.ReadToEndAsync();
+            //}
         }
     }
 }
