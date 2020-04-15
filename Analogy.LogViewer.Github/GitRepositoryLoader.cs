@@ -3,13 +3,14 @@ using Analogy.LogViewer.Github.Data_Types;
 using Analogy.LogViewer.Github.Managers;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Threading.Tasks;
 
 namespace Analogy.LogViewer.Github
 {
     public class GitRepositoryLoader : IAnalogyRealTimeDataProvider
     {
-
         public Guid ID { get; } = new Guid("B92CA79D-3621-416E-ADA7-52EEAF243759");
         public string OptionalTitle => Repository;
         public Task<bool> CanStartReceiving() => Task.FromResult(true);
@@ -21,6 +22,12 @@ namespace Analogy.LogViewer.Github
         private string Repository { get; }
         private GitHubOperationType Type { get; }
         private Task fetcher;
+        public bool UseCustomColors { get; set; } = false;
+        public IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
+            => Array.Empty<(string, string)>();
+
+        public (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
+            => (Color.Empty, Color.Empty);
         public GitRepositoryLoader(string rs, GitHubOperationType type)
         {
             Repository = rs;
