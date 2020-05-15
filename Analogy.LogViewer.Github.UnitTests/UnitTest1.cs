@@ -1,4 +1,5 @@
 using Analogy.Interfaces;
+using Analogy.LogViewer.Github.Data_Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace Analogy.LogViewer.Github.UnitTests
             m.Source = uri;
 
             string releases = await Utils.GetAsync(uri + "/releases");
-            var r = JsonConvert.DeserializeObject(releases);
+            var r = JsonConvert.DeserializeObject<GithubReleaseEntry[]>(releases);
         }
     }
 }
