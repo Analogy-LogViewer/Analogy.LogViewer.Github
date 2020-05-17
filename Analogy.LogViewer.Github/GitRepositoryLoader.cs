@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Analogy.LogViewer.Github
@@ -24,7 +25,7 @@ namespace Analogy.LogViewer.Github
         private Task fetcher;
         public bool UseCustomColors { get; set; } = false;
         public IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
-            => Array.Empty<(string, string)>();
+            => new List<(string originalHeader, string replacementHeader)>() { ("Module", "Downloads") };
 
         public (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
             => (Color.Empty, Color.Empty);
@@ -54,14 +55,32 @@ namespace Analogy.LogViewer.Github
                 {
                     string data = await Utils.GetAsync(Repository);
                     //var dictionary = JsonConvert.DeserializeObject(data);
-                    AnalogyLogMessage m = new AnalogyLogMessage();
-                    m.Text = data;
-                    m.Level = AnalogyLogLevel.Event;
-                    m.Source = Repository;
-                    OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, Repository, "Github", ID));
 
                     string releases = await Utils.GetAsync(Repository + "/releases");
-                    var r = JsonConvert.DeserializeObject(releases);
+                    var r = JsonConvert.DeserializeObject<GithubReleaseEntry[]>(releases);
+                    foreach (GithubReleaseEntry entry in r)
+                    {
+                        AnalogyLogMessage m = new AnalogyLogMessage();
+                        m.Text = $"{entry.TagName}{Environment.NewLine}{entry.Content}{Environment.NewLine}{entry.Assets.Sum(a => a.Downloads)}";
+                        m.Level = AnalogyLogLevel.Event;
+                        m.Source = Repository;
+                        m.Date = entry.Published;
+                        m.FileName = entry.Id;
+                        m.Category = entry.Branch;
+                        m.Module = entry.Assets.Sum(a => a.Downloads).ToString();
+                        OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, Repository, "Github", ID));
+
+                    }
+                    AnalogyLogMessage d = new AnalogyLogMessage();
+                    d.Text = $"Total Downloads: {r.SelectMany(e => e.Assets).Sum(a => a.Downloads)}";
+                    d.Level = AnalogyLogLevel.Event;
+                    d.Source = Repository;
+                    d.Date = DateTime.Now;
+                    d.FileName = "";
+                    d.Category = "";
+                    d.Module = "";
+                    OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(d, Repository, "Github", ID));
+
                 }
                 catch (Exception e)
                 {
