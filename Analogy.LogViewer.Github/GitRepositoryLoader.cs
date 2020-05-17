@@ -61,7 +61,7 @@ namespace Analogy.LogViewer.Github
                     foreach (GithubReleaseEntry entry in r)
                     {
                         AnalogyLogMessage m = new AnalogyLogMessage();
-                        m.Text = $"{entry.TagName}{Environment.NewLine}{entry.Content}{Environment.NewLine}{entry.Assets.Sum(a => a.Downloads)}";
+                        m.Text = $"{entry.TagName}{Environment.NewLine}{entry.Content}{Environment.NewLine}{string.Join(Environment.NewLine, entry.Assets.Select(e => e.ToString()))}";
                         m.Level = AnalogyLogLevel.Event;
                         m.Source = Repository;
                         m.Date = entry.Published;

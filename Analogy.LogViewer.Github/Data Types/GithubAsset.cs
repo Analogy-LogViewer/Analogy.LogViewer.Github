@@ -25,5 +25,7 @@ namespace Analogy.LogViewer.Github.Data_Types
         public DateTime Updated { get; set; }
         [JsonProperty("browser_download_url")]
         public string BrowserDownloadUrl { get; set; }
+
+        public override string ToString() => $"Asset Name: {Name}, URL: {URL}, Size: {Size}, Downloads: {Downloads}, Created: {Created}";
     }
 }
