@@ -20,6 +20,9 @@ namespace Analogy.LogViewer.Github.UnitTests
             m.Level = AnalogyLogLevel.Event;
             m.Source = uri;
 
+            string repo = await Utils.GetAsync(uri);
+            var repoInfo = JsonConvert.DeserializeObject<GithubRepo>(repo);
+
             string releases = await Utils.GetAsync(uri + "/releases");
             var r = JsonConvert.DeserializeObject<GithubReleaseEntry[]>(releases);
         }
