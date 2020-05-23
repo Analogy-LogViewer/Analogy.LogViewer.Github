@@ -14,7 +14,7 @@ namespace Analogy.LogViewer.Github
                 Uri myUri = new Uri(uri);
                 HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create(myUri);
                 myHttpWebRequest.Accept = "application/json";
-                myHttpWebRequest.UserAgent = "Analogy>LogViewer.Github";
+                myHttpWebRequest.UserAgent = "Analogy.LogViewer.Github";
                 if (!string.IsNullOrEmpty(token))
                     myHttpWebRequest.Headers.Add(HttpRequestHeader.Authorization, $"Token {token}");
 
