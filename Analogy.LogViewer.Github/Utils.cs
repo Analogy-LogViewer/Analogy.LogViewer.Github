@@ -1,35 +1,42 @@
-﻿using System.Net.Http;
+﻿using Newtonsoft.Json;
+using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Analogy.LogViewer.Github
 {
     public static class Utils
     {
-        public static async Task<string> GetAsync(string uri)
+        public static async Task<(bool newData, T result)> GetAsync<T>(string uri, string token, DateTime lastModified)
         {
-            using (HttpClient client = new HttpClient())
+            try
             {
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                Uri myUri = new Uri(uri);
+                HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create(myUri);
+                myHttpWebRequest.Accept = "application/json";
+                myHttpWebRequest.UserAgent = "Analogy>LogViewer.Github";
+                if (!string.IsNullOrEmpty(token))
+                    myHttpWebRequest.Headers.Add(HttpRequestHeader.Authorization, $"Token {token}");
 
-                client.DefaultRequestHeaders.UserAgent.TryParseAdd("Analogy");//Set the User Agent to "request"
-                using (HttpResponseMessage response = await client.GetAsync(uri))
+                myHttpWebRequest.IfModifiedSince = lastModified;
+
+                HttpWebResponse myHttpWebResponse = (HttpWebResponse)await myHttpWebRequest.GetResponseAsync();
+                if (myHttpWebResponse.StatusCode == HttpStatusCode.NotModified)
+                    return (false, default);
+
+                using (var reader = new System.IO.StreamReader(myHttpWebResponse.GetResponseStream()))
                 {
-                    response.EnsureSuccessStatusCode();
-                    return await response.Content.ReadAsStringAsync();
+                    string responseText = await reader.ReadToEndAsync();
+                    return (true, JsonConvert.DeserializeObject<T>(responseText));
                 }
             }
-
-            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            ////Get the headers associated with the request.
-            //request.Headers[HttpRequestHeader.UserAgent] = "Analogy";
-            //request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-            //using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-            //using (Stream stream = response.GetResponseStream())
-            //using (StreamReader reader = new StreamReader(stream))
-            //{
-            //    return await reader.ReadToEndAsync();
-            //}
+            catch (WebException e) when (((HttpWebResponse)e.Response).StatusCode == HttpStatusCode.NotModified)
+            {
+                return (false, default);
+            }
         }
+
+
+
     }
 }

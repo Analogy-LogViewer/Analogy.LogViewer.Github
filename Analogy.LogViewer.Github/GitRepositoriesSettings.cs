@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
+﻿using Analogy.LogViewer.Github.Data_Types;
 using Analogy.LogViewer.Github.Managers;
+using System;
+using System.Windows.Forms;
 
 namespace Analogy.LogViewer.Github
 {
@@ -26,30 +26,15 @@ namespace Analogy.LogViewer.Github
         {
             if (!string.IsNullOrEmpty(txtRepository.Text))
             {
-                UserSettingsManager.UserSettings.RepositoriesSetting.AddRepository(txtRepository.Text);
+                RepositorySettings r = new RepositorySettings(txtRepository.Text, txtRepository.Text, 0);
+                UserSettingsManager.UserSettings.RepositoriesSetting.AddRepository(r);
                 RefreshList();
-            }
-        }
-
-        private void btnBrowser_Click(object sender, EventArgs e)
-        {
-            using (FolderBrowserDialog folderDlg = new FolderBrowserDialog
-            {
-                ShowNewFolderButton = false
-            })
-            {
-                // Show the FolderBrowserDialog.  
-                DialogResult result = folderDlg.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    txtRepository.Text = folderDlg.SelectedPath;
-                }
             }
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (lstRepositores.SelectedItem is string repo)
+            if (lstRepositores.SelectedItem is RepositorySettings repo)
             {
                 UserSettingsManager.UserSettings.RepositoriesSetting.DeleteRepository(repo);
                 RefreshList();

@@ -1,9 +1,9 @@
 ﻿using Analogy.Interfaces;
 using Analogy.Interfaces.Factories;
-using Analogy.LogViewer.Github.Data_Types;
 using Analogy.LogViewer.Github.Managers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Analogy.LogViewer.Github.IAnalogy
 {
@@ -12,24 +12,7 @@ namespace Analogy.LogViewer.Github.IAnalogy
         public Guid FactoryId { get; } = GitHubFactory.Id;
         public string Title => "Repositories";
 
-        public IEnumerable<IAnalogyDataProvider> DataProviders
-        {
-            get
-            {
-                foreach (string rs in UserSettingsManager.UserSettings.RepositoriesSetting.Repositories)
-                {
-                    string repo = rs;
-                    GitHubOperationType op = GitHubOperationType.MainPage;
-                    if (repo.EndsWith("/"))
-                        repo = repo.Substring(0, repo.Length - 2);
-                    if (repo.EndsWith("Releases", StringComparison.InvariantCultureIgnoreCase))
-                        op = GitHubOperationType.Releases;
-
-                    yield return new GitRepositoryLoader(rs, op);
-                }
-            }
-
-        }
+        public IEnumerable<IAnalogyDataProvider> DataProviders => UserSettingsManager.UserSettings.RepositoriesSetting.Repositories.Select(rs => new GitRepositoryLoader(rs));
     }
 
 }

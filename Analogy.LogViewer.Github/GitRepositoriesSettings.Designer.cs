@@ -40,19 +40,20 @@
             // 
             this.txtRepository.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRepository.Location = new System.Drawing.Point(140, 3);
+            this.txtRepository.Location = new System.Drawing.Point(226, 3);
             this.txtRepository.Name = "txtRepository";
-            this.txtRepository.Size = new System.Drawing.Size(469, 26);
+            this.txtRepository.Size = new System.Drawing.Size(383, 26);
             this.txtRepository.TabIndex = 14;
+            this.txtRepository.Text = "Analogy-LogViewer/Analogy.LogViewer";
             // 
             // lblPath
             // 
             this.lblPath.AutoSize = true;
             this.lblPath.Location = new System.Drawing.Point(22, 6);
             this.lblPath.Name = "lblPath";
-            this.lblPath.Size = new System.Drawing.Size(112, 18);
+            this.lblPath.Size = new System.Drawing.Size(198, 18);
             this.lblPath.TabIndex = 13;
-            this.lblPath.Text = "Repository URL:";
+            this.lblPath.Text = "Repository URL (User/Repo):";
             // 
             // lstRepositores
             // 
