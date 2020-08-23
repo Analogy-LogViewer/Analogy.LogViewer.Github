@@ -44,68 +44,61 @@ namespace Analogy.LogViewer.Github
             //noop
         }
 
-        public void StartReceiving()
+        public async Task StartReceiving()
         {
 
-            Task.Factory.StartNew(async () =>
+            try
             {
-                try
+                var (_, releases) = await Utils.GetAsync<GithubReleaseEntry[]>(Repository.RepoApiReleasesUrl, GitHubToken, DateTime.MinValue).ConfigureAwait(false);
+                foreach (GithubReleaseEntry entry in releases)
                 {
-                    var (_, releases) = await Utils.GetAsync<GithubReleaseEntry[]>(Repository.RepoApiReleasesUrl, GitHubToken, DateTime.MinValue);
-                    foreach (GithubReleaseEntry entry in releases)
-                    {
-                        AnalogyLogMessage m = new AnalogyLogMessage
-                        {
-                            Text =
-                                $"{entry.TagName}{Environment.NewLine}{entry.Content}{Environment.NewLine}{string.Join(Environment.NewLine, entry.Assets.Select(e => e.ToString()))}",
-                            Level = AnalogyLogLevel.Event,
-                            Source = Repository.DisplayName,
-                            Date = entry.Published,
-                            FileName = entry.Id,
-                            Category = entry.Branch,
-                            User = "Release",
-                            Module = entry.Assets.Sum(a => a.Downloads).ToString()
-                        };
-                        OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, Repository.DisplayName, "Github", ID));
-
-                    }
-                    int total = releases.SelectMany(e => e.Assets).Sum(a => a.Downloads);
-                    AnalogyLogMessage d = new AnalogyLogMessage
-                    {
-                        Text = $"Total Downloads: {total}",
-                        Level = AnalogyLogLevel.Event,
-                        Source = Repository.DisplayName,
-                        Date = DateTime.Now,
-                        FileName = "",
-                        Category = "",
-                        User = "Release",
-                        Module = total.ToString()
-                    };
-                    OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(d, Repository.DisplayName, "Github", ID));
-
-                }
-                catch (Exception e)
-                {
-                    LogManager.Instance.LogError(nameof(StartReceiving),
-                        $@"Error reading {Repository}: {e}");
                     AnalogyLogMessage m = new AnalogyLogMessage
                     {
-                        Date = DateTime.Now,
-                        Module = Repository.DisplayName,
-                        Text = $"Error: {e}",
-                        Level = AnalogyLogLevel.Error,
-                        Class = AnalogyLogClass.General
+                        Text =
+                            $"{entry.TagName}{Environment.NewLine}{entry.Content}{Environment.NewLine}{string.Join(Environment.NewLine, entry.Assets.Select(e => e.ToString()))}",
+                        Level = AnalogyLogLevel.Event,
+                        Source = Repository.DisplayName,
+                        Date = entry.Published,
+                        FileName = entry.Id,
+                        Category = entry.Branch,
+                        User = "Release",
+                        Module = entry.Assets.Sum(a => a.Downloads).ToString()
                     };
-                    OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, "", "", ID));
+                    OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, Repository.DisplayName, "Github", ID));
+
                 }
-            });
+                int total = releases.SelectMany(e => e.Assets).Sum(a => a.Downloads);
+                AnalogyLogMessage d = new AnalogyLogMessage
+                {
+                    Text = $"Total Downloads: {total}",
+                    Level = AnalogyLogLevel.Event,
+                    Source = Repository.DisplayName,
+                    Date = DateTime.Now,
+                    FileName = "",
+                    Category = "",
+                    User = "Release",
+                    Module = total.ToString()
+                };
+                OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(d, Repository.DisplayName, "Github", ID));
 
+            }
+            catch (Exception e)
+            {
+                LogManager.Instance.LogError(nameof(StartReceiving),
+                    $@"Error reading {Repository}: {e}");
+                AnalogyLogMessage m = new AnalogyLogMessage
+                {
+                    Date = DateTime.Now,
+                    Module = Repository.DisplayName,
+                    Text = $"Error: {e}",
+                    Level = AnalogyLogLevel.Error,
+                    Class = AnalogyLogClass.General
+                };
+                OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, "", "", ID));
+            }
         }
 
-        public void StopReceiving()
-        {
-            //noop
-        }
+        public Task StopReceiving() => Task.CompletedTask;
 
     }
 }
