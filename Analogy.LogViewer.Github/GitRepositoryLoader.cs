@@ -12,7 +12,13 @@ namespace Analogy.LogViewer.Github
     public class GitRepositoryLoader : IAnalogyRealTimeDataProvider
     {
         public string GitHubToken { get; } = Environment.GetEnvironmentVariable("GitHubNotifier_Token");
-        public Guid ID { get; } = new Guid("B92CA79D-3621-416E-ADA7-52EEAF243759");
+        public Guid Id { get; } = new Guid("B92CA79D-3621-416E-ADA7-52EEAF243759");
+
+        public Image ConnectedLargeImage { get; } = null;
+        public Image ConnectedSmallImage { get; } = null;
+        public Image DisconnectedLargeImage { get; } = null;
+        public Image DisconnectedSmallImage { get; } = null;
+
         public string OptionalTitle => Repository.DisplayName;
         public Task<bool> CanStartReceiving() => Task.FromResult(true);
         public IAnalogyOfflineDataProvider FileOperationsHandler { get; } = null;
@@ -64,7 +70,7 @@ namespace Analogy.LogViewer.Github
                         User = "Release",
                         Module = entry.Assets.Sum(a => a.Downloads).ToString()
                     };
-                    OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, Repository.DisplayName, "Github", ID));
+                    OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, Repository.DisplayName, "Github", Id));
 
                 }
                 int total = releases.SelectMany(e => e.Assets).Sum(a => a.Downloads);
@@ -79,7 +85,7 @@ namespace Analogy.LogViewer.Github
                     User = "Release",
                     Module = total.ToString()
                 };
-                OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(d, Repository.DisplayName, "Github", ID));
+                OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(d, Repository.DisplayName, "Github", Id));
 
             }
             catch (Exception e)
@@ -94,7 +100,7 @@ namespace Analogy.LogViewer.Github
                     Level = AnalogyLogLevel.Error,
                     Class = AnalogyLogClass.General
                 };
-                OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, "", "", ID));
+                OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, "", "", Id));
             }
         }
 
