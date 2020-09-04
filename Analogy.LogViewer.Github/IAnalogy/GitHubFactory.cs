@@ -8,14 +8,14 @@ namespace Analogy.LogViewer.Github.IAnalogy
     public class GitHubFactory : IAnalogyFactory
     {
         internal static Guid Id = new Guid("8064229A-2605-42FA-9E72-75444E4AB13F");
-        public Guid FactoryId => Id;
+        public Guid FactoryId { get; set; } = Id;
 
-        public string Title => "Github";
-        public IEnumerable<IAnalogyChangeLog> ChangeLog { get; } = new List<AnalogyChangeLog>
+        public string Title { get; set; } = "Github";
+        public IEnumerable<IAnalogyChangeLog> ChangeLog { get; set; } = new List<AnalogyChangeLog>
         {
             new AnalogyChangeLog("Initial version",AnalogChangeLogType.None, "Lior Banai",new DateTime(2020, 04, 14))
         };
-        public IEnumerable<string> Contributors { get; } = new List<string> { "Lior Banai" };
-        public string About { get; } = "Github Info";
+        public IEnumerable<string> Contributors { get; set; } = new List<string> { "Lior Banai" };
+        public string About { get; set; } = "Github Info";
     }
 }

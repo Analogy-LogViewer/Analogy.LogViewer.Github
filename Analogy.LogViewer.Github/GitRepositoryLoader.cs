@@ -12,14 +12,14 @@ namespace Analogy.LogViewer.Github
     public class GitRepositoryLoader : IAnalogyRealTimeDataProvider
     {
         public string GitHubToken { get; } = Environment.GetEnvironmentVariable("GitHubNotifier_Token");
-        public Guid Id { get; } = new Guid("B92CA79D-3621-416E-ADA7-52EEAF243759");
+        public Guid Id { get; set; } = new Guid("B92CA79D-3621-416E-ADA7-52EEAF243759");
 
-        public Image ConnectedLargeImage { get; } = null;
-        public Image ConnectedSmallImage { get; } = null;
-        public Image DisconnectedLargeImage { get; } = null;
-        public Image DisconnectedSmallImage { get; } = null;
+        public Image ConnectedLargeImage { get; set; } = null;
+        public Image ConnectedSmallImage { get; set; } = null;
+        public Image DisconnectedLargeImage { get; set; } = null;
+        public Image DisconnectedSmallImage { get; set; } = null;
 
-        public string OptionalTitle => Repository.DisplayName;
+        public string OptionalTitle { get; set; }
         public Task<bool> CanStartReceiving() => Task.FromResult(true);
         public IAnalogyOfflineDataProvider FileOperationsHandler { get; } = null;
         public bool IsConnected { get; } = true;
@@ -37,6 +37,7 @@ namespace Analogy.LogViewer.Github
         public GitRepositoryLoader(RepositorySettings repo)
         {
             Repository = repo;
+            OptionalTitle = Repository.DisplayName;
         }
 
         public Task InitializeDataProviderAsync(IAnalogyLogger logger)

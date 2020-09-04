@@ -12,12 +12,11 @@ namespace Analogy.LogViewer.Github.GitHubActions
              var f = new GitOperationsForm();
              f.ShowDialog(Application.OpenForms[0]);
          };
-        public Guid Id { get; } = new Guid("FD8E1ED1-20DA-4783-87EC-9FAC66422CC1");
-        public Image LargeImage => null;
-        public Image SmallImage => null;
+        public Guid Id { get; set; } = new Guid("FD8E1ED1-20DA-4783-87EC-9FAC66422CC1");
+        public Image LargeImage { get; set; } = null;
+        public Image SmallImage { get; set; } = null;
 
-        public string Title { get; } = "Git Fetch";
-
-
+        public string Title { get; set; } = "Git Fetch";
+        public AnalogyCustomActionType Type { get; } = AnalogyCustomActionType.BelongsToProvider;
     }
 }
