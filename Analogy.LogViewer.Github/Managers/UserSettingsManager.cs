@@ -24,7 +24,7 @@ namespace Analogy.LogViewer.Github.Managers
                 }
                 catch (Exception ex)
                 {
-                    LogManager.Instance.LogCritical("", $"Unable to read file {RepositoriesSettingFile}: {ex}");
+                    LogManager.Instance.LogCritical($"Unable to read file {RepositoriesSettingFile}: {ex}","");
                 }
             }
         }
@@ -37,7 +37,7 @@ namespace Analogy.LogViewer.Github.Managers
             }
             catch (Exception ex)
             {
-                LogManager.Instance.LogCritical("", $"Unable to save file {RepositoriesSettingFile}: {ex}");
+                LogManager.Instance.LogCritical($"Unable to save file {RepositoriesSettingFile}: {ex}","");
 
             }
 

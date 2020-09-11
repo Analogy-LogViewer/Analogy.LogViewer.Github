@@ -63,7 +63,7 @@ namespace Analogy.LogViewer.Github
                     {
                         Text =
                             $"{entry.TagName}{Environment.NewLine}{entry.Content}{Environment.NewLine}{string.Join(Environment.NewLine, entry.Assets.Select(e => e.ToString()))}",
-                        Level = AnalogyLogLevel.Event,
+                        Level = AnalogyLogLevel.Information,
                         Source = Repository.DisplayName,
                         Date = entry.Published,
                         FileName = entry.Id,
@@ -78,7 +78,7 @@ namespace Analogy.LogViewer.Github
                 AnalogyLogMessage d = new AnalogyLogMessage
                 {
                     Text = $"Total Downloads: {total}",
-                    Level = AnalogyLogLevel.Event,
+                    Level = AnalogyLogLevel.Information,
                     Source = Repository.DisplayName,
                     Date = DateTime.Now,
                     FileName = "",
@@ -91,8 +91,7 @@ namespace Analogy.LogViewer.Github
             }
             catch (Exception e)
             {
-                LogManager.Instance.LogError(nameof(StartReceiving),
-                    $@"Error reading {Repository}: {e}");
+                LogManager.Instance.LogError($@"Error reading {Repository}: {e}",nameof(StartReceiving));
                 AnalogyLogMessage m = new AnalogyLogMessage
                 {
                     Date = DateTime.Now,

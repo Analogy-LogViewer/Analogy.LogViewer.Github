@@ -17,7 +17,7 @@ namespace Analogy.LogViewer.Github.UnitTests
             //var dictionary = JsonConvert.DeserializeObject(data);
             AnalogyLogMessage m = new AnalogyLogMessage();
             m.Text = data;
-            m.Level = AnalogyLogLevel.Event;
+            m.Level = AnalogyLogLevel.Information;
             m.Source = uri;
 
             string repo = await Utils.GetAsync(uri);
