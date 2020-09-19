@@ -11,8 +11,8 @@
 		<Description>Extension for Analogy Log Viewer that shows Git Histroy in searchable UI</Description>
 		<Copyright>Lior Banai @ 2020</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.GitHistory</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.GitHistory</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.Github</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Analogy-LogViewer/Analogy.LogViewer.Github</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageReleaseNotes>Initial POC</PackageReleaseNotes>
 		<PackageIcon>Analogy.GitHistoryBanner.png</PackageIcon>
