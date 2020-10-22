@@ -9,7 +9,7 @@ namespace Analogy.LogViewer.Github.Managers
         private static readonly Lazy<UserSettingsManager> _instance =
             new Lazy<UserSettingsManager>(() => new UserSettingsManager());
         public static UserSettingsManager UserSettings { get; set; } = _instance.Value;
-        private string RepositoriesSettingFile { get; } = "AnalogyGitHub.Settings";
+        private string RepositoriesSettingFile { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Analogy.LogViewer", "AnalogyGitHubSettings.json");
         public RepositoriesSetting RepositoriesSetting { get; }
 
         public UserSettingsManager()
