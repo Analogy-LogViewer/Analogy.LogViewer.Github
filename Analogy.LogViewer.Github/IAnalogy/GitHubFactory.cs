@@ -10,6 +10,11 @@ namespace Analogy.LogViewer.Github.IAnalogy
     public class GitHubFactory : IAnalogyFactory
     {
         internal static Guid Id = new Guid("8064229A-2605-42FA-9E72-75444E4AB13F");
+        public void RegisterNotificationCallback(INotificationReporter notificationReporter)
+        {
+            
+        }
+
         public Guid FactoryId { get; set; } = Id;
 
         public string Title { get; set; } = "Github";
