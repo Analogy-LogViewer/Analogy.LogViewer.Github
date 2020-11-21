@@ -16,13 +16,17 @@ namespace Analogy.LogViewer.Github
                 myHttpWebRequest.Accept = "application/json";
                 myHttpWebRequest.UserAgent = "Analogy.LogViewer.Github";
                 if (!string.IsNullOrEmpty(token))
+                {
                     myHttpWebRequest.Headers.Add(HttpRequestHeader.Authorization, $"Token {token}");
+                }
 
                 myHttpWebRequest.IfModifiedSince = lastModified;
 
                 HttpWebResponse myHttpWebResponse = (HttpWebResponse)await myHttpWebRequest.GetResponseAsync();
                 if (myHttpWebResponse.StatusCode == HttpStatusCode.NotModified)
+                {
                     return (false, default);
+                }
 
                 using (var reader = new System.IO.StreamReader(myHttpWebResponse.GetResponseStream()))
                 {

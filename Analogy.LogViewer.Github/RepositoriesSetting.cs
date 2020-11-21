@@ -17,12 +17,16 @@ namespace Analogy.LogViewer.Github
         public void AddRepository(RepositorySettings repository)
         {
             if (!Repositories.Contains(repository))
+            {
                 Repositories.Add(repository);
+            }
         }
         public void DeleteRepository(RepositorySettings repository)
         {
             if (Repositories.Contains(repository))
+            {
                 Repositories.Remove(repository);
+            }
         }
 
     }
