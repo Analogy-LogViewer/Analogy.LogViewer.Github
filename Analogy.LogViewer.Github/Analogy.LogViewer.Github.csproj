@@ -7,6 +7,8 @@
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 		<Authors>Lior Banai</Authors>
 		<Description>Extension for Analogy Log Viewer that shows Git Histroy in searchable UI</Description>
 		<Copyright>Lior Banai @ 2020</Copyright>
@@ -17,7 +19,7 @@
 		<PackageReleaseNotes>Initial POC</PackageReleaseNotes>
 		<PackageIcon>Analogy.GitHistoryBanner.png</PackageIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.3.4</Version>
+		<Version>1.3.5</Version>
 		<Nullable>enable</Nullable>
 		<LangVersion>8.0</LangVersion>
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
