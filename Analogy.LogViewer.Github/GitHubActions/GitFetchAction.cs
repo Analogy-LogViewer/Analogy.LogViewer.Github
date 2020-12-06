@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Analogy.Interfaces;
+using Analogy.Interfaces.DataTypes;
 
 namespace Analogy.LogViewer.Github.GitHubActions
 {
@@ -18,5 +19,6 @@ namespace Analogy.LogViewer.Github.GitHubActions
 
         public string Title { get; set; } = "Git Fetch";
         public AnalogyCustomActionType Type { get; } = AnalogyCustomActionType.BelongsToProvider;
+        public AnalogyToolTip? ToolTip { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Analogy.Interfaces;
 using Analogy.LogViewer.Github.Data_Types;
 using Analogy.LogViewer.Github.Managers;
+using Analogy.LogViewer.Template;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,30 +10,27 @@ using System.Threading.Tasks;
 
 namespace Analogy.LogViewer.Github
 {
-    public class GitRepositoryLoader : IAnalogyRealTimeDataProvider
+    public class GitRepositoryLoader : OnlineDataProvider
     {
         public string GitHubToken { get; } = Environment.GetEnvironmentVariable("GitHubNotifier_Token");
-        public Guid Id { get; set; } = new Guid("B92CA79D-3621-416E-ADA7-52EEAF243759");
+        public override Guid Id { get; set; } = new Guid("B92CA79D-3621-416E-ADA7-52EEAF243759");
 
-        public Image ConnectedLargeImage { get; set; } = null;
-        public Image ConnectedSmallImage { get; set; } = null;
-        public Image DisconnectedLargeImage { get; set; } = null;
-        public Image DisconnectedSmallImage { get; set; } = null;
+        public override Image? ConnectedLargeImage { get; set; } = null;
+        public override Image? ConnectedSmallImage { get; set; } = null;
+        public override Image? DisconnectedLargeImage { get; set; } = null;
+        public override Image? DisconnectedSmallImage { get; set; } = null;
 
-        public string OptionalTitle { get; set; }
-        public Task<bool> CanStartReceiving() => Task.FromResult(true);
-        public IAnalogyOfflineDataProvider FileOperationsHandler { get; } = null;
-        public bool IsConnected { get; } = true;
-        public event EventHandler<AnalogyDataSourceDisconnectedArgs> OnDisconnected;
-        public event EventHandler<AnalogyLogMessageArgs> OnMessageReady;
-        public event EventHandler<AnalogyLogMessagesArgs> OnManyMessagesReady;
+        public override string OptionalTitle { get; set; }
+        public override Task<bool> CanStartReceiving() => Task.FromResult(true);
+        public override IAnalogyOfflineDataProvider? FileOperationsHandler { get; set; } = null;
+
         private RepositorySettings Repository { get; }
         private Task fetcher;
         public bool UseCustomColors { get; set; } = false;
-        public IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
-            => new List<(string originalHeader, string replacementHeader)>() { ("Module", "Downloads"), ("User", "Type") };
+        public override IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
+            => new List<(string originalHeader, string replacementHeader)> { ("Module", "Downloads"), ("User", "Type") };
 
-        public (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
+        public override (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
             => (Color.Empty, Color.Empty);
         public GitRepositoryLoader(RepositorySettings repo)
         {
@@ -40,18 +38,13 @@ namespace Analogy.LogViewer.Github
             OptionalTitle = Repository.DisplayName;
         }
 
-        public Task InitializeDataProviderAsync(IAnalogyLogger logger)
+        public override Task InitializeDataProviderAsync(IAnalogyLogger logger)
         {
             LogManager.Instance.SetLogger(logger);
-            return Task.CompletedTask;
+            return base.InitializeDataProviderAsync(logger); 
         }
-
-        public void MessageOpened(AnalogyLogMessage message)
-        {
-            //noop
-        }
-
-        public async Task StartReceiving()
+        
+        public override async Task StartReceiving()
         {
 
             try
@@ -71,7 +64,7 @@ namespace Analogy.LogViewer.Github
                         User = "Release",
                         Module = entry.Assets.Sum(a => a.Downloads).ToString()
                     };
-                    OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, Repository.DisplayName, "Github", Id));
+                    MessageReady(this, new AnalogyLogMessageArgs(m, Repository.DisplayName, "Github", Id));
 
                 }
                 int total = releases.SelectMany(e => e.Assets).Sum(a => a.Downloads);
@@ -86,12 +79,12 @@ namespace Analogy.LogViewer.Github
                     User = "Release",
                     Module = total.ToString()
                 };
-                OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(d, Repository.DisplayName, "Github", Id));
+                MessageReady(this, new AnalogyLogMessageArgs(d, Repository.DisplayName, "Github", Id));
 
             }
             catch (Exception e)
             {
-                LogManager.Instance.LogError($@"Error reading {Repository}: {e}",nameof(StartReceiving));
+                LogManager.Instance.LogError($@"Error reading {Repository}: {e}", nameof(StartReceiving));
                 AnalogyLogMessage m = new AnalogyLogMessage
                 {
                     Date = DateTime.Now,
@@ -100,11 +93,11 @@ namespace Analogy.LogViewer.Github
                     Level = AnalogyLogLevel.Error,
                     Class = AnalogyLogClass.General
                 };
-                OnMessageReady?.Invoke(this, new AnalogyLogMessageArgs(m, "", "", Id));
+                MessageReady(this, new AnalogyLogMessageArgs(m, "", "", Id));
             }
         }
 
-        public Task StopReceiving() => Task.CompletedTask;
+        public override Task StopReceiving() => Task.CompletedTask;
 
     }
 }
