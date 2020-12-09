@@ -1,5 +1,5 @@
-﻿using System;
-using Analogy.LogViewer.Github.Data_Types;
+﻿using Analogy.LogViewer.Github.Data_Types;
+using System;
 using System.Collections.Generic;
 
 namespace Analogy.LogViewer.Github
@@ -9,10 +9,14 @@ namespace Analogy.LogViewer.Github
     {
         public string GitHubToken { get; } = Environment.GetEnvironmentVariable("GitHubNotifier_Token");
         public List<RepositorySettings> Repositories { get; set; }
-
+        public int GitHubNotificationIntervalMilliseconds { get; set; } = 15 * 60 * 1000;
+        public DateTime LastReadUserNotification { get; set; }
+        public List<GitHubUserNotification> LastUnReadUserNotifications { get; set; }
         public GithubSettings()
         {
-            Repositories = new List<RepositorySettings>();
+            LastReadUserNotification = DateTime.MinValue;
+            LastUnReadUserNotifications=new List<GitHubUserNotification>();
+             Repositories = new List<RepositorySettings>();
         }
 
         public void AddRepository(RepositorySettings repository)

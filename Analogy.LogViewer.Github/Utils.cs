@@ -2,11 +2,21 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Analogy.LogViewer.Github.Data_Types;
 
 namespace Analogy.LogViewer.Github
 {
     public static class Utils
     {
+        public static event EventHandler<string> OnNameResolutionFailure;
+        public static async Task<GitHubRateLimit> GetRateLimit(string token)
+        {
+            var data = await GetAsync<GitHubRateLimit>("https://api.github.com/rate_limit", token, DateTime.Now);
+            return data.result;
+
+
+        }
+
         public static async Task<(bool newData, T result)> GetAsync<T>(string uri, string token, DateTime lastModified)
         {
             try
@@ -34,13 +44,31 @@ namespace Analogy.LogViewer.Github
                     return (true, JsonConvert.DeserializeObject<T>(responseText));
                 }
             }
+            catch (WebException e) when (e.Status == WebExceptionStatus.NameResolutionFailure)
+            {
+                OnNameResolutionFailure?.Invoke(null, "Error getting " + uri);
+                return (false, default);
+            }
+            catch (WebException e) when (e.Status == WebExceptionStatus.UnknownError)
+            {
+                return (false, default);
+            }
             catch (WebException e) when (((HttpWebResponse)e.Response).StatusCode == HttpStatusCode.NotModified)
             {
                 return (false, default);
             }
+            catch (WebException e) when (((HttpWebResponse)e.Response).StatusCode == HttpStatusCode.Unauthorized)
+            {
+                return (false, default);
+            }
+            catch (WebException e) when (((HttpWebResponse)e.Response).StatusCode == HttpStatusCode.Forbidden)
+            {
+                return (false, default);
+            }
+            catch (Exception)
+            {
+                return (false, default);
+            }
         }
-
-
-
     }
 }

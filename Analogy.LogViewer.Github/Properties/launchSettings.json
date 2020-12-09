@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Analogy.LogViewer.Github": {
+      "commandName": "Executable",
+      "executablePath": "E:\\files\\Programming\\Analogy.LogViewer\\Analogy\\bin\\Debug\\netcoreapp3.1\\Analogy.exe",
+      "workingDirectory": "E:\\files\\Programming\\Analogy.LogViewer\\Analogy\\bin\\Debug\\netcoreapp3.1\\"
+    }
+  }
+}
