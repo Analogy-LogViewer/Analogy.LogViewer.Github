@@ -20,14 +20,14 @@ namespace Analogy.LogViewer.Github
         private void RefreshList()
         {
             lstRepositores.DataSource = null;
-            lstRepositores.DataSource = UserSettingsManager.UserSettings.RepositoriesSetting.Repositories;
+            lstRepositores.DataSource = UserSettingsManager.UserSettings.GithubSettings.Repositories;
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(txtRepository.Text))
             {
                 RepositorySettings r = new RepositorySettings(txtRepository.Text, txtRepository.Text, 0);
-                UserSettingsManager.UserSettings.RepositoriesSetting.AddRepository(r);
+                UserSettingsManager.UserSettings.GithubSettings.AddRepository(r);
                 RefreshList();
             }
         }
@@ -36,7 +36,7 @@ namespace Analogy.LogViewer.Github
         {
             if (lstRepositores.SelectedItem is RepositorySettings repo)
             {
-                UserSettingsManager.UserSettings.RepositoriesSetting.DeleteRepository(repo);
+                UserSettingsManager.UserSettings.GithubSettings.DeleteRepository(repo);
                 RefreshList();
             }
         }

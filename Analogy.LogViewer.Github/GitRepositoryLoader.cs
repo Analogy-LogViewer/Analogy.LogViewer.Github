@@ -12,7 +12,7 @@ namespace Analogy.LogViewer.Github
 {
     public class GitRepositoryLoader : OnlineDataProvider
     {
-        public string GitHubToken { get; } = Environment.GetEnvironmentVariable("GitHubNotifier_Token");
+    
         public override Guid Id { get; set; } = new Guid("B92CA79D-3621-416E-ADA7-52EEAF243759");
 
         public override Image? ConnectedLargeImage { get; set; } = null;
@@ -26,7 +26,7 @@ namespace Analogy.LogViewer.Github
 
         private RepositorySettings Repository { get; }
         private Task fetcher;
-        public bool UseCustomColors { get; set; } = false;
+        public override bool UseCustomColors { get; set; } = false;
         public override IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
             => new List<(string originalHeader, string replacementHeader)> { ("Module", "Downloads"), ("User", "Type") };
 
@@ -49,7 +49,7 @@ namespace Analogy.LogViewer.Github
 
             try
             {
-                var (_, releases) = await Utils.GetAsync<GithubReleaseEntry[]>(Repository.RepoApiReleasesUrl, GitHubToken, DateTime.MinValue).ConfigureAwait(false);
+                var (_, releases) = await Utils.GetAsync<GithubReleaseEntry[]>(Repository.RepoApiReleasesUrl, UserSettingsManager.UserSettings.GithubSettings.GitHubToken, DateTime.MinValue).ConfigureAwait(false);
                 foreach (GithubReleaseEntry entry in releases)
                 {
                     AnalogyLogMessage m = new AnalogyLogMessage

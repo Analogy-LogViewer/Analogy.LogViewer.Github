@@ -10,17 +10,17 @@ namespace Analogy.LogViewer.Github.Managers
             new Lazy<UserSettingsManager>(() => new UserSettingsManager());
         public static UserSettingsManager UserSettings { get; set; } = _instance.Value;
         private string RepositoriesSettingFile { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Analogy.LogViewer", "AnalogyGitHubSettings.json");
-        public RepositoriesSetting RepositoriesSetting { get; }
+        public GithubSettings GithubSettings { get; }
 
         public UserSettingsManager()
         {
-            RepositoriesSetting = new RepositoriesSetting();
+            GithubSettings = new GithubSettings();
             if (File.Exists(RepositoriesSettingFile))
             {
                 try
                 {
                     string data = File.ReadAllText(RepositoriesSettingFile);
-                    RepositoriesSetting = JsonConvert.DeserializeObject<RepositoriesSetting>(data);
+                    GithubSettings = JsonConvert.DeserializeObject<GithubSettings>(data);
                 }
                 catch (Exception ex)
                 {
@@ -33,7 +33,7 @@ namespace Analogy.LogViewer.Github.Managers
         {
             try
             {
-                File.WriteAllText(RepositoriesSettingFile, JsonConvert.SerializeObject(RepositoriesSetting));
+                File.WriteAllText(RepositoriesSettingFile, JsonConvert.SerializeObject(GithubSettings));
             }
             catch (Exception ex)
             {
