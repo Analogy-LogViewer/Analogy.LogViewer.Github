@@ -63,7 +63,7 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net471' ">
 		<Reference Include="System.Net.Http" />
 	</ItemGroup>
 
