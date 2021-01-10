@@ -16,6 +16,7 @@ namespace Analogy.LogViewer.Github.IAnalogy
         private static IEnumerable<IAnalogyDataProvider> GenerateDataProviders()
         {
             yield return new NotificationChecker();
+            yield return new IssuesTracker();
             foreach (var repo in UserSettingsManager.UserSettings.GithubSettings.Repositories.Select(rs =>
                 new GitRepositoryLoader(rs)))
             {

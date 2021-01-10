@@ -27,7 +27,7 @@ namespace Analogy.LogViewer.Github
         private RepositorySettings Repository { get; }
         public override bool UseCustomColors { get; set; } = false;
         public override IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
-            => new List<(string originalHeader, string replacementHeader)> { ("Module", "Downloads"), ("User", "Type") };
+            => new List<(string originalHeader, string replacementHeader)> { ("Module", "Downloads"), ("User", "Type") , ("Category", "URL") };
 
         public override (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
             => (Color.Empty, Color.Empty);
@@ -36,7 +36,7 @@ namespace Analogy.LogViewer.Github
         public GitRepositoryLoader(RepositorySettings repo)
         {
             Repository = repo;
-            OptionalTitle = "Repo: " + Repository.DisplayName;
+            OptionalTitle = "Release for: " + Repository.DisplayName;
 
         }
 
@@ -72,7 +72,7 @@ namespace Analogy.LogViewer.Github
                         Source = Repository.DisplayName,
                         Date = entry.Published,
                         FileName = entry.Id,
-                        Category = entry.Branch,
+                        Category = entry.HtmlUrl,
                         User = "Release",
                         Module = entry.Assets.Sum(a => a.Downloads).ToString()
                     };

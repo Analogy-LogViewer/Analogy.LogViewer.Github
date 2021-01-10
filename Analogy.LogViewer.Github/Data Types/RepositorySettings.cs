@@ -11,7 +11,7 @@ namespace Analogy.LogViewer.Github.Data_Types
         public string RepoUrl => $"https://github.com/{RepoName}";
         public string RepoApiUrl => $"https://api.github.com/repos/{RepoName}";
         public string RepoApiReleasesUrl => $"https://api.github.com/repos/{RepoName}/releases";
-
+        public string RepoApiIssuesUrl => $"https://api.github.com/repos/{RepoName}/issues";
         public int UpdateMinutes { get; set; }
         public DateTime LastChecked { get; set; }
 

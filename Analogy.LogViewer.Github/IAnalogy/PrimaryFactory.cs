@@ -1,8 +1,8 @@
 ﻿using Analogy.Interfaces;
+using Analogy.LogViewer.Github.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Analogy.LogViewer.Github.Properties;
 
 namespace Analogy.LogViewer.Github.IAnalogy
 {
@@ -10,7 +10,7 @@ namespace Analogy.LogViewer.Github.IAnalogy
     {
         internal static Guid Id = new Guid("8064229A-2605-42FA-9E72-75444E4AB13F");
         public override Guid FactoryId { get; set; } = Id;
-        public override string Title { get; set; } = "GitHub";
+        public override string Title { get; set; } = "GitHub2";
         public override IEnumerable<IAnalogyChangeLog> ChangeLog { get; set; } = new List<AnalogyChangeLog>
         {
             new AnalogyChangeLog("Initial version",AnalogChangeLogType.None, "Lior Banai",new DateTime(2020, 04, 14))

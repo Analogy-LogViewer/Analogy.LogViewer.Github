@@ -23,7 +23,7 @@ namespace Analogy.LogViewer.Github.IAnalogy
         public override bool UseCustomColors { get; set; } = false;
         private Timer? RefreshTimer { get; set; }
         public override IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
-            => new List<(string originalHeader, string replacementHeader)> { ("Module", "Downloads"), ("User", "Type") };
+            => new List<(string originalHeader, string replacementHeader)> { ("Module", "Downloads") };
 
         public override (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
             => (Color.Empty, Color.Empty);
