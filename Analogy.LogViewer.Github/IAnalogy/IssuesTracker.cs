@@ -4,6 +4,7 @@ using Analogy.LogViewer.Github.Managers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -67,9 +68,10 @@ namespace Analogy.LogViewer.Github.IAnalogy
 
                     foreach (var entry in issues)
                     {
+
                         AnalogyLogMessage m = new AnalogyLogMessage
                         {
-                            Text = $"{entry.Title}:{entry.body}.{Environment.NewLine}{entry.html_url}",
+                            Text = $"{entry.html_url}{Environment.NewLine}Title: {entry.Title}.{Environment.NewLine}Body:{entry.body}{Environment.NewLine}",
                             Level = AnalogyLogLevel.Information,
                             Source = repo.DisplayName,
                             Date = entry.updated_at,
@@ -78,6 +80,23 @@ namespace Analogy.LogViewer.Github.IAnalogy
                             User = entry.Id,
                             Module = $"Comments: {entry.comments} ({ entry.comments_url })"
                         };
+                        if (entry.comments > 0)
+                        {
+                            var comments = await Utils.GetAsync<GitHubComment[]>(entry.comments_url,
+                                UserSettingsManager.UserSettings.GithubSettings.GitHubToken, DateTime.MinValue);
+                            if (comments.newData)
+                            {
+                                StringBuilder sb = new StringBuilder(Environment.NewLine + "### Comments:" +
+                                                                     Environment.NewLine);
+                                sb.Append("| User   |      Comment      |" + Environment.NewLine + "| ----------|:---------------| ");
+                                foreach (var comment in comments.result)
+                                {
+                                    sb.Append($"{Environment.NewLine}|{comment.user.Login} ![image]({comment.user.avatarUrl})|{comment.body}.At: {comment.created_at}");
+                                }
+
+                                m.Text += Environment.NewLine + sb;
+                            }
+                        }
                         MessageReady(this, new AnalogyLogMessageArgs(m, repo.DisplayName, "Github", Id));
 
                     }
