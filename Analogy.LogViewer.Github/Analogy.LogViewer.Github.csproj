@@ -19,7 +19,7 @@
 		<PackageReleaseNotes>Initial POC</PackageReleaseNotes>
 		<PackageIcon>Analogy.GitHistoryBanner.png</PackageIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.4.2.1</Version>
+		<Version>1.4.3</Version>
 		<Nullable>enable</Nullable>
 		<LangVersion>8.0</LangVersion>
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
@@ -27,6 +27,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Markdig" Version="0.22.1" />
+		<PackageReference Include="Markdig.SyntaxHighlighting" Version="1.1.7" />
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.9.1.1" />
 		<PackageReference Include="Analogy.LogViewer.Template" Version="1.8.1" />
 		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.0.0">

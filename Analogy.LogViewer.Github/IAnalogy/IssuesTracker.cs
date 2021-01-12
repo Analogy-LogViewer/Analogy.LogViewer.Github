@@ -1,6 +1,8 @@
 ﻿using Analogy.Interfaces;
 using Analogy.LogViewer.Github.Data_Types;
 using Analogy.LogViewer.Github.Managers;
+using Markdig;
+using Markdig.SyntaxHighlighting;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -52,12 +54,13 @@ namespace Analogy.LogViewer.Github.IAnalogy
 
         private async void Fetch(object? state)
         {
-
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions()
+                .UseSyntaxHighlighting()
+                .Build();
             foreach (RepositorySettings repo in Repositories)
             {
                 try
                 {
-
                     var (_, issues) = await Utils.GetAsync<GitHubIssue[]>(repo.RepoApiIssuesUrl,
                         UserSettingsManager.UserSettings.GithubSettings.GitHubToken, DateTime.MinValue)
                     .ConfigureAwait(false);
@@ -97,6 +100,8 @@ namespace Analogy.LogViewer.Github.IAnalogy
                                 m.Text += Environment.NewLine + sb;
                             }
                         }
+
+                        m.Text = Markdown.ToHtml(m.Text, pipeline);
                         MessageReady(this, new AnalogyLogMessageArgs(m, repo.DisplayName, "Github", Id));
 
                     }
