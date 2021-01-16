@@ -70,7 +70,7 @@ namespace Analogy.LogViewer.Github.IAnalogy
 
                         AnalogyLogMessage m = new AnalogyLogMessage
                         {
-                            Text = $"{entry.Title}{Environment.NewLine}URL:{entry.html_url}{Environment.NewLine}Body:{entry.body}{Environment.NewLine}",
+                            Text = $"{entry.Title}{Environment.NewLine}URL: {entry.html_url}{Environment.NewLine}Body: {entry.body}{Environment.NewLine}",
                             Level = AnalogyLogLevel.Information,
                             Source = repo.DisplayName,
                             Date = entry.updated_at,
