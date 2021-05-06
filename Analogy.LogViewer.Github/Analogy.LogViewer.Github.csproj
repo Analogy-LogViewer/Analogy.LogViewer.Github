@@ -19,7 +19,7 @@
 		<PackageReleaseNotes>Initial POC</PackageReleaseNotes>
 		<PackageIcon>Analogy.GitHistoryBanner.png</PackageIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.5.0</Version>
+		<Version>1.5.1</Version>
 		<Nullable>enable</Nullable>
 		<LangVersion>8.0</LangVersion>
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
@@ -28,7 +28,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="2.13.0" />
-		<PackageReference Include="Analogy.LogViewer.Template" Version="1.9.0" />
+		<PackageReference Include="Analogy.LogViewer.Template" Version="1.9.1" />
 		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
