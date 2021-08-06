@@ -19,7 +19,7 @@
 		<PackageReleaseNotes>Initial POC</PackageReleaseNotes>
 		<PackageIcon>Analogy.GitHistoryBanner.png</PackageIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.5.2</Version>
+		<Version>1.5.3</Version>
 		<Nullable>enable</Nullable>
 		<LangVersion>8.0</LangVersion>
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
