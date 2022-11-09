@@ -22,6 +22,7 @@ namespace Analogy.LogViewer.Github
 
         public override string? OptionalTitle { get; set; }
         public override Task<bool> CanStartReceiving() => Task.FromResult(true);
+        
         public override IAnalogyOfflineDataProvider? FileOperationsHandler { get; set; } = null;
 
         private RepositorySettings Repository { get; }
@@ -109,5 +110,8 @@ namespace Analogy.LogViewer.Github
             }
 
         }
+        public override Task ShutDown() => Task.CompletedTask;
+        
+        
     }
 }

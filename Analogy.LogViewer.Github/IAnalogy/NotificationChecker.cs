@@ -64,6 +64,8 @@ namespace Analogy.LogViewer.Github.IAnalogy
                 }
             }
         }
+        public override Task ShutDown() => Task.CompletedTask;
+
     }
 }
 
