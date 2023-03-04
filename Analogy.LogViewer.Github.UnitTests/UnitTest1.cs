@@ -3,6 +3,7 @@ using Analogy.LogViewer.Github.Data_Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Analogy.CommonUtilities.Github;
 
 namespace Analogy.LogViewer.Github.UnitTests
 {

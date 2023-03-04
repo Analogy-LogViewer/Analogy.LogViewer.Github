@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Analogy.CommonUtilities.Github;
 
 namespace Analogy.LogViewer.Github
 {
@@ -73,10 +74,10 @@ namespace Analogy.LogViewer.Github
                         Source = Repository.DisplayName,
                         Date = entry.Published,
                         FileName = entry.Id,
-                        Category = entry.HtmlUrl,
                         User = "Release",
                         Module = entry.Assets.Sum(a => a.Downloads).ToString()
                     };
+                    m.AddOrReplaceAdditionalProperty("Category", entry.HtmlUrl);
                     MessageReady(this, new AnalogyLogMessageArgs(m, Repository.DisplayName, "Github", Id));
 
                 }
@@ -88,7 +89,6 @@ namespace Analogy.LogViewer.Github
                     Source = Repository.DisplayName,
                     Date = DateTime.Now,
                     FileName = "",
-                    Category = "",
                     User = "Release",
                     Module = total.ToString()
                 };

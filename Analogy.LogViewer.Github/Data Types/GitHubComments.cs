@@ -1,4 +1,5 @@
 ﻿using System;
+using Analogy.CommonUtilities.Github;
 
 namespace Analogy.LogViewer.Github.Data_Types
 {

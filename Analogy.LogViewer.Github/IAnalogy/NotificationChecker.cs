@@ -58,8 +58,9 @@ namespace Analogy.LogViewer.Github.IAnalogy
                 foreach (GitHubUserNotification n in notifications)
                 {
                     AnalogyInformationMessage m = new AnalogyInformationMessage(n.Subject.Title, n.Repository.FullName);
-                    m.Category = n.Subject.Type;
                     m.Module = n.Subject.URL;
+                    m.AddOrReplaceAdditionalProperty("Category", n.Subject.Type);
+
                     MessageReady(this, new AnalogyLogMessageArgs(m, "", "Notifications", Id));
                 }
             }

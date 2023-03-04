@@ -75,10 +75,11 @@ namespace Analogy.LogViewer.Github.IAnalogy
                             Source = repo.DisplayName,
                             Date = entry.updated_at,
                             FileName = entry.Id,
-                            Category = entry.html_url,
                             User = entry.Id,
                             Module = $"Comments: {entry.comments} ({ entry.comments_url })"
                         };
+                        m.AddOrReplaceAdditionalProperty("Category", entry.html_url);
+
                         if (entry.comments > 0)
                         {
                             var comments = await Utils.GetAsync<GitHubComment[]>(entry.comments_url,
