@@ -1,7 +1,5 @@
 ﻿using Analogy.Interfaces;
 using Analogy.LogViewer.Github.Properties;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace Analogy.LogViewer.Github.IAnalogy

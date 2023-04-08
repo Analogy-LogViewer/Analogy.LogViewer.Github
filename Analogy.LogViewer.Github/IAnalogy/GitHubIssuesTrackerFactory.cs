@@ -1,6 +1,4 @@
 ﻿using Analogy.Interfaces;
-using System;
-using System.Collections.Generic;
 
 namespace Analogy.LogViewer.Github.IAnalogy
 {

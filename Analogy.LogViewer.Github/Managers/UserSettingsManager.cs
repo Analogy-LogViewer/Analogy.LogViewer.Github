@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.IO;
 
 namespace Analogy.LogViewer.Github.Managers
@@ -21,6 +20,7 @@ namespace Analogy.LogViewer.Github.Managers
                 {
                     string data = File.ReadAllText(RepositoriesSettingFile);
                     GithubSettings = JsonConvert.DeserializeObject<GithubSettings>(data);
+
                 }
                 catch (Exception ex)
                 {

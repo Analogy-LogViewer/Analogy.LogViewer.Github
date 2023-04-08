@@ -1,7 +1,5 @@
 ﻿using Analogy.LogViewer.Github.Managers;
-using System;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Analogy.Interfaces;
 

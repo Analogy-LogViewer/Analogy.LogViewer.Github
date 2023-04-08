@@ -1,6 +1,5 @@
 ﻿using Analogy.LogViewer.Github.Data_Types;
 using Analogy.LogViewer.Github.Managers;
-using System;
 using System.Windows.Forms;
 
 namespace Analogy.LogViewer.Github
@@ -15,6 +14,8 @@ namespace Analogy.LogViewer.Github
         private void GitRepositoriesSettings_Load(object sender, EventArgs e)
         {
             RefreshList();
+            txtbLocalToken.Text = UserSettingsManager.UserSettings.GithubSettings.GitHubToken;
+
         }
 
         private void RefreshList()
@@ -24,9 +25,9 @@ namespace Analogy.LogViewer.Github
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtRepository.Text))
+            if (!string.IsNullOrEmpty(txtRepositoryOwner.Text) && !string.IsNullOrEmpty(txtbRepoName.Text))
             {
-                RepositorySettings r = new RepositorySettings(txtRepository.Text, txtRepository.Text, 0);
+                RepositorySettings r = new RepositorySettings(txtRepositoryOwner.Text, txtbRepoName.Text, 0);
                 UserSettingsManager.UserSettings.GithubSettings.AddRepository(r);
                 RefreshList();
             }
@@ -39,6 +40,11 @@ namespace Analogy.LogViewer.Github
                 UserSettingsManager.UserSettings.GithubSettings.DeleteRepository(repo);
                 RefreshList();
             }
+        }
+
+        private void btnLocalToken_Click(object sender, EventArgs e)
+        {
+            UserSettingsManager.UserSettings.GithubSettings.LocalGitHubToken = txtbLocalToken.Text;
         }
     }
 }

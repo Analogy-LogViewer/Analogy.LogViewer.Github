@@ -1,13 +1,10 @@
 ﻿using Analogy.Interfaces;
 using Analogy.LogViewer.Github.Data_Types;
 using Analogy.LogViewer.Github.Managers;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Analogy.CommonUtilities.Github;
+using Octokit;
 
 namespace Analogy.LogViewer.Github
 {
@@ -23,18 +20,20 @@ namespace Analogy.LogViewer.Github
 
         public override string? OptionalTitle { get; set; }
         public override Task<bool> CanStartReceiving() => Task.FromResult(true);
-        
+
         public override IAnalogyOfflineDataProvider? FileOperationsHandler { get; set; } = null;
 
         private RepositorySettings Repository { get; }
         public override bool UseCustomColors { get; set; } = false;
         public override IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
-            => new List<(string originalHeader, string replacementHeader)> { ("Module", "Downloads"), ("User", "Type") , ("Category", "URL") };
+            => new List<(string originalHeader, string replacementHeader)> { ("Module", "Downloads"), ("User", "Type"), ("Category", "URL") };
 
         public override (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
             => (Color.Empty, Color.Empty);
 
+        private GitHubClient? Client { get; set; }
         private Timer? fetcher;
+        private UserSettingsManager Settings => UserSettingsManager.UserSettings;
         public GitRepositoryLoader(RepositorySettings repo)
         {
             Repository = repo;
@@ -45,6 +44,9 @@ namespace Analogy.LogViewer.Github
 
         public override Task StartReceiving()
         {
+            Client = new GitHubClient(new ProductHeaderValue("Analogy.LogViewer.Github"));
+            var tokenAuth = new Credentials(Settings.GithubSettings.GitHubToken);
+            Client.Credentials = tokenAuth;
             fetcher = new Timer(Fetch, null, 1, Timeout.Infinite);
             return Task.CompletedTask;
         }
@@ -59,29 +61,29 @@ namespace Analogy.LogViewer.Github
         {
             try
             {
-                var (_, releases) = await Utils.GetAsync<GithubReleaseEntry[]>(Repository.RepoApiReleasesUrl, UserSettingsManager.UserSettings.GithubSettings.GitHubToken, DateTime.MinValue).ConfigureAwait(false);
+                var releases = await Client.Repository.Release.GetAll(Repository.Owner, Repository.RepoName);
                 if (releases == null)
                 {
                     return;
                 }
-                foreach (GithubReleaseEntry entry in releases)
+                foreach (var entry in releases)
                 {
                     AnalogyLogMessage m = new AnalogyLogMessage
                     {
                         Text =
-                            $"{entry.TagName}{Environment.NewLine}{entry.Content}{Environment.NewLine}{string.Join(Environment.NewLine, entry.Assets.Select(e => e.ToString()))}",
+                            $"{entry.TagName}{Environment.NewLine}{entry.Body}{Environment.NewLine}{string.Join(Environment.NewLine, entry.Assets.Select(e => e.Name))}",
                         Level = AnalogyLogLevel.Information,
                         Source = Repository.DisplayName,
-                        Date = entry.Published,
-                        FileName = entry.Id,
+                        Date = entry.PublishedAt?.DateTime ?? DateTime.MinValue,
+                        FileName = entry.Url,
                         User = "Release",
-                        Module = entry.Assets.Sum(a => a.Downloads).ToString()
+                        Module = entry.Assets.Sum(a => a.DownloadCount).ToString()
                     };
                     m.AddOrReplaceAdditionalProperty("Category", entry.HtmlUrl);
                     MessageReady(this, new AnalogyLogMessageArgs(m, Repository.DisplayName, "Github", Id));
 
                 }
-                int total = releases.SelectMany(e => e.Assets).Sum(a => a.Downloads);
+                int total = releases.SelectMany(e => e.Assets).Sum(a => a.DownloadCount);
                 AnalogyLogMessage d = new AnalogyLogMessage
                 {
                     Text = $"Total Downloads: {total}",
@@ -111,7 +113,7 @@ namespace Analogy.LogViewer.Github
 
         }
         public override Task ShutDown() => Task.CompletedTask;
-        
-        
+
+
     }
 }

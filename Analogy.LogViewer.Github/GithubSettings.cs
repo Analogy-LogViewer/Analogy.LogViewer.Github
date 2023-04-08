@@ -1,22 +1,22 @@
 ﻿using Analogy.LogViewer.Github.Data_Types;
-using System;
-using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Analogy.LogViewer.Github
 {
 
     public class GithubSettings
     {
-        public string GitHubToken { get; } = Environment.GetEnvironmentVariable("GitHubNotifier_Token");
+        public string RegistryGitHubToken { get; set; } = Environment.GetEnvironmentVariable("Analogy.LogViewer.Github_Token");
+        public string LocalGitHubToken { get; set; }
+        public string GitHubToken => string.IsNullOrEmpty(LocalGitHubToken) ? RegistryGitHubToken : LocalGitHubToken;
+
         public List<RepositorySettings> Repositories { get; set; }
         public int GitHubNotificationIntervalMilliseconds { get; set; } = 15 * 60 * 1000;
         public DateTime LastReadUserNotification { get; set; }
-        public List<GitHubUserNotification> LastUnReadUserNotifications { get; set; }
         public GithubSettings()
         {
             LastReadUserNotification = DateTime.MinValue;
-            LastUnReadUserNotifications=new List<GitHubUserNotification>();
-             Repositories = new List<RepositorySettings>();
+            Repositories = new List<RepositorySettings>();
         }
 
         public void AddRepository(RepositorySettings repository)
@@ -33,6 +33,7 @@ namespace Analogy.LogViewer.Github
                 Repositories.Remove(repository);
             }
         }
+
 
     }
 }

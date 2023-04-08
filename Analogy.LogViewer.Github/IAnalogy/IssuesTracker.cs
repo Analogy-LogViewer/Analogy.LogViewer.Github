@@ -1,12 +1,9 @@
 ﻿using Analogy.Interfaces;
 using Analogy.LogViewer.Github.Data_Types;
 using Analogy.LogViewer.Github.Managers;
-using System;
-using System.Collections.Generic;
+using Octokit;
 using System.Drawing;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Analogy.LogViewer.Github.IAnalogy
 {
@@ -31,8 +28,11 @@ namespace Analogy.LogViewer.Github.IAnalogy
         public override (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
             => (Color.Empty, Color.Empty);
         public List<RepositorySettings> Repositories => UserSettingsManager.UserSettings.GithubSettings.Repositories;
+        private UserSettingsManager Settings => UserSettingsManager.UserSettings;
 
         private Timer? fetcher;
+        private GitHubClient? Client { get; set; }
+
         public IssuesTracker()
         {
         }
@@ -40,6 +40,9 @@ namespace Analogy.LogViewer.Github.IAnalogy
 
         public override Task StartReceiving()
         {
+            Client = new GitHubClient(new ProductHeaderValue("Analogy.LogViewer.Github"));
+            var tokenAuth = new Credentials(Settings.GithubSettings.GitHubToken);
+            Client.Credentials = tokenAuth;
             fetcher = new Timer(Fetch, null, 1, Timeout.Infinite);
             return Task.CompletedTask;
         }
@@ -57,41 +60,33 @@ namespace Analogy.LogViewer.Github.IAnalogy
             {
                 try
                 {
-                    var (_, issues) = await Utils.GetAsync<GitHubIssue[]>(repo.RepoApiIssuesUrl,
-                        UserSettingsManager.UserSettings.GithubSettings.GitHubToken, DateTime.MinValue)
-                    .ConfigureAwait(false);
-                    if (issues == null)
-                    {
-                        return;
-                    }
-
+                    var  issues = await Client.Issue.GetAllForRepository(repo.Owner, repo.RepoName);
                     foreach (var entry in issues)
                     {
 
                         AnalogyLogMessage m = new AnalogyLogMessage
                         {
-                            Text = $"{entry.Title}{Environment.NewLine}URL: {entry.html_url}{Environment.NewLine}Body: {entry.body}{Environment.NewLine}",
+                            Text = $"{entry.Title}{Environment.NewLine}URL: {entry.HtmlUrl}{Environment.NewLine}Body: {entry.Body}{Environment.NewLine}",
                             Level = AnalogyLogLevel.Information,
                             Source = repo.DisplayName,
-                            Date = entry.updated_at,
-                            FileName = entry.Id,
-                            User = entry.Id,
-                            Module = $"Comments: {entry.comments} ({ entry.comments_url })"
+                            Date = entry.UpdatedAt?.DateTime ?? DateTime.MinValue,
+                            FileName = entry.Url,
+                            User = "Issue",
+                            Module = $"Comments: {entry.Comments} ({ entry.CommentsUrl })"
                         };
-                        m.AddOrReplaceAdditionalProperty("Category", entry.html_url);
+                        m.AddOrReplaceAdditionalProperty("Category", entry.HtmlUrl);
 
-                        if (entry.comments > 0)
+                        if (entry.Comments > 0)
                         {
-                            var comments = await Utils.GetAsync<GitHubComment[]>(entry.comments_url,
-                                UserSettingsManager.UserSettings.GithubSettings.GitHubToken, DateTime.MinValue);
-                            if (comments.newData)
+                            var comments =await  Client.Issue.Comment.GetAllForIssue(repo.Owner, repo.RepoName, entry.Number);
+                            if (comments.Any())
                             {
                                 StringBuilder sb = new StringBuilder(Environment.NewLine + "### Comments:" +
                                                                      Environment.NewLine);
                                 sb.Append("| User   |      Comment      |" + Environment.NewLine + "| ----------|:---------------| ");
-                                foreach (var comment in comments.result)
+                                foreach (var comment in comments)
                                 {
-                                    sb.Append($"{Environment.NewLine}|{comment.user.Login} ![image]({comment.user.avatarUrl})|{comment.body}.At: {comment.created_at}");
+                                    sb.Append($"{Environment.NewLine}|{comment.User.Name} ![image]({comment.User.AvatarUrl})|{comment.Body}.At: {comment.CreatedAt.DateTime}");
                                 }
 
                                 m.Text += Environment.NewLine + sb;

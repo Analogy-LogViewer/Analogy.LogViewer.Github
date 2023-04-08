@@ -13,19 +13,19 @@ namespace Analogy.LogViewer.Github.UnitTests
         [TestMethod]
         public async Task TestMethod1()
         {
-            string uri = @"https://api.github.com/repos/Analogy-LogViewer/Analogy.LogViewer";
-            string data = await Utils.GetAsync(uri);
-            //var dictionary = JsonConvert.DeserializeObject(data);
-            AnalogyLogMessage m = new AnalogyLogMessage();
-            m.Text = data;
-            m.Level = AnalogyLogLevel.Information;
-            m.Source = uri;
+            //string uri = @"https://api.github.com/repos/Analogy-LogViewer/Analogy.LogViewer";
+            //string data = await Utils.GetAsync(uri);
+            ////var dictionary = JsonConvert.DeserializeObject(data);
+            //AnalogyLogMessage m = new AnalogyLogMessage();
+            //m.Text = data;
+            //m.Level = AnalogyLogLevel.Information;
+            //m.Source = uri;
 
-            string repo = await Utils.GetAsync(uri);
-            var repoInfo = JsonConvert.DeserializeObject<GithubRepo>(repo);
+            //string repo = await Utils.GetAsync(uri);
+            //var repoInfo = JsonConvert.DeserializeObject<GithubRepo>(repo);
 
-            string releases = await Utils.GetAsync(uri + "/releases");
-            var r = JsonConvert.DeserializeObject<GithubReleaseEntry[]>(releases);
+            //string releases = await Utils.GetAsync(uri + "/releases");
+            //var r = JsonConvert.DeserializeObject<GithubReleaseEntry[]>(releases);
         }
     }
 }
