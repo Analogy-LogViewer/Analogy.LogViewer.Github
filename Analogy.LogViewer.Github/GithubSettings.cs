@@ -1,4 +1,4 @@
-﻿using Analogy.LogViewer.Github.Data_Types;
+﻿using Analogy.LogViewer.Github.DataTypes;
 using System.Runtime.Serialization;
 
 namespace Analogy.LogViewer.Github

@@ -1,5 +1,5 @@
 using Analogy.Interfaces;
-using Analogy.LogViewer.Github.Data_Types;
+using Analogy.LogViewer.Github.DataTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Threading.Tasks;

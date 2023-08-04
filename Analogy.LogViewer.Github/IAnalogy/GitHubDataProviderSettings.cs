@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Analogy.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Analogy.LogViewer.Github.IAnalogy
 {
@@ -14,7 +15,7 @@ namespace Analogy.LogViewer.Github.IAnalogy
         public override Image? SmallImage { get; set; }
         public override Image? LargeImage { get; set; }
 
-        public override void CreateUserControl(IAnalogyLogger logger)
+        public override void CreateUserControl(ILogger logger)
         {
             DataProviderSettings = new GitRepositoriesSettings();
         }

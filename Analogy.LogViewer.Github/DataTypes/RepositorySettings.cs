@@ -1,4 +1,4 @@
-﻿namespace Analogy.LogViewer.Github.Data_Types
+﻿namespace Analogy.LogViewer.Github.DataTypes
 {
     [Serializable]
 

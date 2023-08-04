@@ -1,4 +1,4 @@
-﻿using Analogy.LogViewer.Github.Data_Types;
+﻿using Analogy.LogViewer.Github.DataTypes;
 using Analogy.LogViewer.Github.Managers;
 using System.Windows.Forms;
 

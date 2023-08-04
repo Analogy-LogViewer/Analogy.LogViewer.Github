@@ -1,9 +1,10 @@
 ﻿using Analogy.Interfaces;
-using Analogy.LogViewer.Github.Data_Types;
 using Analogy.LogViewer.Github.Managers;
 using System.Drawing;
 using System.Threading;
 using Analogy.CommonUtilities.Github;
+using Analogy.LogViewer.Github.DataTypes;
+using Microsoft.Extensions.Logging;
 using Octokit;
 
 namespace Analogy.LogViewer.Github
@@ -13,18 +14,18 @@ namespace Analogy.LogViewer.Github
 
         public override Guid Id { get; set; } = new Guid("B92CA79D-3621-416E-ADA7-52EEAF243759");
 
-        public override Image? ConnectedLargeImage { get; set; } = null;
-        public override Image? ConnectedSmallImage { get; set; } = null;
-        public override Image? DisconnectedLargeImage { get; set; } = null;
-        public override Image? DisconnectedSmallImage { get; set; } = null;
+        public override Image? ConnectedLargeImage { get; set; }
+        public override Image? ConnectedSmallImage { get; set; }
+        public override Image? DisconnectedLargeImage { get; set; }
+        public override Image? DisconnectedSmallImage { get; set; }
 
         public override string? OptionalTitle { get; set; }
         public override Task<bool> CanStartReceiving() => Task.FromResult(true);
 
-        public override IAnalogyOfflineDataProvider? FileOperationsHandler { get; set; } = null;
+        public override IAnalogyOfflineDataProvider? FileOperationsHandler { get; set; }
 
         private RepositorySettings Repository { get; }
-        public override bool UseCustomColors { get; set; } = false;
+        public override bool UseCustomColors { get; set; }
         public override IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
             => new List<(string originalHeader, string replacementHeader)> { ("Module", "Downloads"), ("User", "Type"), ("Category", "URL") };
 
@@ -99,7 +100,7 @@ namespace Analogy.LogViewer.Github
             }
             catch (Exception e)
             {
-                Template.Managers.LogManager.Instance.LogError($@"Error reading {Repository}: {e}", nameof(StartReceiving));
+                Template.Managers.LogManager.Instance.LogError(e, $@"Error reading {Repository}: {e}");
                 AnalogyLogMessage m = new AnalogyLogMessage
                 {
                     Date = DateTime.Now,
