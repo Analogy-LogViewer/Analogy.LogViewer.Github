@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
@@ -18,7 +18,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>Analogy.GitHistoryBanner.png</PackageIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<VersionPrefix>5.0.1.0</VersionPrefix>
+		<VersionPrefix>5.0.3.0</VersionPrefix>
 		<VersionSuffix></VersionSuffix>
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
@@ -27,9 +27,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="5.0.0" />
-		<PackageReference Include="Analogy.CommonUtilities" Version="5.0.0" />
-		<PackageReference Include="Analogy.LogViewer.Template" Version="5.0.2" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="5.0.3" />
+		<PackageReference Include="Analogy.CommonUtilities" Version="5.0.3" />
+		<PackageReference Include="Analogy.LogViewer.Template" Version="5.0.3" />
 		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
