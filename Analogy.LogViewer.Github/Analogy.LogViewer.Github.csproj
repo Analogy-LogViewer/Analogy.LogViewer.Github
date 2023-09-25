@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
@@ -39,7 +39,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="Octokit" Version="7.1.0" />
+		<PackageReference Include="Octokit" Version="8.0.0" />
 		<PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
 	</ItemGroup>
 
