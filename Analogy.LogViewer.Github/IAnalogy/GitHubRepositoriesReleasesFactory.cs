@@ -9,7 +9,6 @@ namespace Analogy.LogViewer.Github.IAnalogy
         public override string Title { get; set; } = "Repositories Releases";
         public override IEnumerable<IAnalogyDataProvider> DataProviders { get; set; } = GenerateDataProviders();
 
-
         private static IEnumerable<IAnalogyDataProvider> GenerateDataProviders()
         {
             foreach (var repo in UserSettingsManager.UserSettings.GithubSettings.Repositories.Select(rs =>
@@ -19,5 +18,4 @@ namespace Analogy.LogViewer.Github.IAnalogy
             }
         }
     }
-
 }

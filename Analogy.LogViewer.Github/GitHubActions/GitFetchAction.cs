@@ -1,7 +1,7 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-using Analogy.Interfaces;
+﻿using Analogy.Interfaces;
 using Analogy.Interfaces.DataTypes;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Analogy.LogViewer.Github.GitHubActions
 {

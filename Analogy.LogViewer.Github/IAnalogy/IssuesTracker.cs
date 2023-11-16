@@ -10,7 +10,6 @@ namespace Analogy.LogViewer.Github.IAnalogy
 {
     public class IssuesTracker : Template.OnlineDataProvider
     {
-
         public override Guid Id { get; set; } = new Guid("a6f0882d-c39a-4c38-9f9d-267d5d012db3");
 
         public override Image? ConnectedLargeImage { get; set; }
@@ -23,10 +22,10 @@ namespace Analogy.LogViewer.Github.IAnalogy
         public override IAnalogyOfflineDataProvider? FileOperationsHandler { get; set; }
 
         public override bool UseCustomColors { get; set; }
-        public override IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
-            => new List<(string originalHeader, string replacementHeader)> { ("Module", "Comments"), ("User", "Id"), ("User", "Type"), ("Category", "URL") };
+        public override IEnumerable<(string OriginalHeader, string ReplacementHeader)> GetReplacementHeaders()
+            => new List<(string OriginalHeader, string ReplacementHeader)> { ("Module", "Comments"), ("User", "Id"), ("User", "Type"), ("Category", "URL") };
 
-        public override (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
+        public override (Color BackgroundColor, Color ForegroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
             => (Color.Empty, Color.Empty);
         public List<RepositorySettings> Repositories => UserSettingsManager.UserSettings.GithubSettings.Repositories;
         private UserSettingsManager Settings => UserSettingsManager.UserSettings;
@@ -37,7 +36,6 @@ namespace Analogy.LogViewer.Github.IAnalogy
         public IssuesTracker()
         {
         }
-
 
         public override Task StartReceiving()
         {
@@ -56,7 +54,6 @@ namespace Analogy.LogViewer.Github.IAnalogy
 
         private async void Fetch(object? state)
         {
-
             foreach (RepositorySettings repo in Repositories)
             {
                 try
@@ -64,7 +61,6 @@ namespace Analogy.LogViewer.Github.IAnalogy
                     var  issues = await Client.Issue.GetAllForRepository(repo.Owner, repo.RepoName);
                     foreach (var entry in issues)
                     {
-
                         AnalogyLogMessage m = new AnalogyLogMessage
                         {
                             Text = $"{entry.Title}{Environment.NewLine}URL: {entry.HtmlUrl}{Environment.NewLine}Body: {entry.Body}{Environment.NewLine}",
@@ -73,7 +69,7 @@ namespace Analogy.LogViewer.Github.IAnalogy
                             Date = entry.UpdatedAt?.DateTime ?? DateTime.MinValue,
                             FileName = entry.Url,
                             User = "Issue",
-                            Module = $"Comments: {entry.Comments} ({ entry.CommentsUrl })"
+                            Module = $"Comments: {entry.Comments} ({entry.CommentsUrl})",
                         };
                         m.AddOrReplaceAdditionalProperty("Category", entry.HtmlUrl);
 
@@ -95,7 +91,6 @@ namespace Analogy.LogViewer.Github.IAnalogy
                         }
 
                         MessageReady(this, new AnalogyLogMessageArgs(m, repo.DisplayName, "Github", Id));
-
                     }
                 }
                 catch (Exception e)
@@ -108,14 +103,12 @@ namespace Analogy.LogViewer.Github.IAnalogy
                         Module = repo.DisplayName,
                         Text = $"Error: {e}",
                         Level = AnalogyLogLevel.Error,
-                        Class = AnalogyLogClass.General
+                        Class = AnalogyLogClass.General,
                     };
                     MessageReady(this, new AnalogyLogMessageArgs(m, "", "", Id));
                 }
-
             }
         }
         public override Task ShutDown() => Task.CompletedTask;
-
     }
 }

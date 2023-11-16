@@ -1,8 +1,8 @@
-﻿using Analogy.LogViewer.Github.Managers;
+﻿using Analogy.Interfaces;
+using Analogy.LogViewer.Github.Managers;
+using Microsoft.Extensions.Logging;
 using System.Drawing;
 using System.Windows.Forms;
-using Analogy.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace Analogy.LogViewer.Github.IAnalogy
 {

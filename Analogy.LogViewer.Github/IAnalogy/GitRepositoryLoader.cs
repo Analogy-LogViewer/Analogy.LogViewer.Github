@@ -1,17 +1,16 @@
-﻿using Analogy.Interfaces;
-using Analogy.LogViewer.Github.Managers;
-using System.Drawing;
-using System.Threading;
-using Analogy.CommonUtilities.Github;
+﻿using Analogy.CommonUtilities.Github;
+using Analogy.Interfaces;
 using Analogy.LogViewer.Github.DataTypes;
+using Analogy.LogViewer.Github.Managers;
 using Microsoft.Extensions.Logging;
 using Octokit;
+using System.Drawing;
+using System.Threading;
 
 namespace Analogy.LogViewer.Github
 {
     public class GitRepositoryLoader : Template.OnlineDataProvider
     {
-
         public override Guid Id { get; set; } = new Guid("B92CA79D-3621-416E-ADA7-52EEAF243759");
 
         public override Image? ConnectedLargeImage { get; set; }
@@ -26,10 +25,10 @@ namespace Analogy.LogViewer.Github
 
         private RepositorySettings Repository { get; }
         public override bool UseCustomColors { get; set; }
-        public override IEnumerable<(string originalHeader, string replacementHeader)> GetReplacementHeaders()
-            => new List<(string originalHeader, string replacementHeader)> { ("Module", "Downloads"), ("User", "Type"), ("Category", "URL") };
+        public override IEnumerable<(string OriginalHeader, string ReplacementHeader)> GetReplacementHeaders()
+            => new List<(string OriginalHeader, string ReplacementHeader)> { ("Module", "Downloads"), ("User", "Type"), ("Category", "URL") };
 
-        public override (Color backgroundColor, Color foregroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
+        public override (Color BackgroundColor, Color ForegroundColor) GetColorForMessage(IAnalogyLogMessage logMessage)
             => (Color.Empty, Color.Empty);
 
         private GitHubClient? Client { get; set; }
@@ -39,9 +38,7 @@ namespace Analogy.LogViewer.Github
         {
             Repository = repo;
             OptionalTitle = "Release for: " + Repository.DisplayName;
-
         }
-
 
         public override Task StartReceiving()
         {
@@ -78,11 +75,10 @@ namespace Analogy.LogViewer.Github
                         Date = entry.PublishedAt?.DateTime ?? DateTime.MinValue,
                         FileName = entry.Url,
                         User = "Release",
-                        Module = entry.Assets.Sum(a => a.DownloadCount).ToString()
+                        Module = entry.Assets.Sum(a => a.DownloadCount).ToString(),
                     };
                     m.AddOrReplaceAdditionalProperty("Category", entry.HtmlUrl);
                     MessageReady(this, new AnalogyLogMessageArgs(m, Repository.DisplayName, "Github", Id));
-
                 }
                 int total = releases.SelectMany(e => e.Assets).Sum(a => a.DownloadCount);
                 AnalogyLogMessage d = new AnalogyLogMessage
@@ -93,10 +89,9 @@ namespace Analogy.LogViewer.Github
                     Date = DateTime.Now,
                     FileName = "",
                     User = "Release",
-                    Module = total.ToString()
+                    Module = total.ToString(),
                 };
                 MessageReady(this, new AnalogyLogMessageArgs(d, Repository.DisplayName, "Github", Id));
-
             }
             catch (Exception e)
             {
@@ -107,14 +102,11 @@ namespace Analogy.LogViewer.Github
                     Module = Repository.DisplayName,
                     Text = $"Error: {e}",
                     Level = AnalogyLogLevel.Error,
-                    Class = AnalogyLogClass.General
+                    Class = AnalogyLogClass.General,
                 };
                 MessageReady(this, new AnalogyLogMessageArgs(m, "", "", Id));
             }
-
         }
         public override Task ShutDown() => Task.CompletedTask;
-
-
     }
 }

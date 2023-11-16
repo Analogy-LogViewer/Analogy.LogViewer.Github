@@ -15,7 +15,6 @@ namespace Analogy.LogViewer.Github
         {
             RefreshList();
             txtbLocalToken.Text = UserSettingsManager.UserSettings.GithubSettings.GitHubToken;
-
         }
 
         private void RefreshList()

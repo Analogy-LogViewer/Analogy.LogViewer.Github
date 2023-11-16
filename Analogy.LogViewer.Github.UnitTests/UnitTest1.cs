@@ -1,9 +1,9 @@
+using Analogy.CommonUtilities.Github;
 using Analogy.Interfaces;
 using Analogy.LogViewer.Github.DataTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using Analogy.CommonUtilities.Github;
 
 namespace Analogy.LogViewer.Github.UnitTests
 {

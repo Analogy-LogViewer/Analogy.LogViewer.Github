@@ -21,7 +21,6 @@ namespace Analogy.LogViewer.Github.Managers
                 {
                     string data = File.ReadAllText(RepositoriesSettingFile);
                     GithubSettings = JsonConvert.DeserializeObject<GithubSettings>(data);
-
                 }
                 catch (Exception ex)
                 {
@@ -39,10 +38,7 @@ namespace Analogy.LogViewer.Github.Managers
             catch (Exception ex)
             {
                 Template.Managers.LogManager.Instance.LogCritical($"Unable to save file {RepositoriesSettingFile}: {ex}", "");
-
             }
-
-
         }
     }
 }

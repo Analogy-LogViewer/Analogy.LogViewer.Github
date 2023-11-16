@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace Analogy.LogViewer.Github
 {
-
     public class GithubSettings
     {
         public string RegistryGitHubToken { get; set; } = Environment.GetEnvironmentVariable("Analogy.LogViewer.Github_Token");
@@ -33,7 +32,5 @@ namespace Analogy.LogViewer.Github
                 Repositories.Remove(repository);
             }
         }
-
-
     }
 }
