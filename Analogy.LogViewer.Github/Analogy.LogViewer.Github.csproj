@@ -19,7 +19,7 @@
 		<PackageReference Include="Analogy.CommonUtilities" Version="6.0.0" />
 		<PackageReference Include="Analogy.LogViewer.Template" Version="6.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="Octokit" Version="9.0.0" />
+		<PackageReference Include="Octokit" Version="9.1.0" />
 		<PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
 	</ItemGroup>
 
