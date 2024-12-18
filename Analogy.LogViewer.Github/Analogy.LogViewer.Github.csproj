@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<TargetFrameworks>net9.0-windows;net8.0-windows;net48</TargetFrameworks>
-		<VersionPrefix>7.1.0</VersionPrefix>
+		<VersionPrefix>7.2.0</VersionPrefix>
 		<VersionSuffix></VersionSuffix>
 		<Authors>Lior Banai</Authors>
 		<Description>Extension for Analogy Log Viewer that shows Git Histroy in searchable UI</Description>
@@ -15,9 +15,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="7.1.0" />
-		<PackageReference Include="Analogy.CommonUtilities" Version="7.1.0" />
-		<PackageReference Include="Analogy.LogViewer.Template" Version="7.1.0" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="7.2.0" />
+		<PackageReference Include="Analogy.CommonUtilities" Version="7.2.0" />
+		<PackageReference Include="Analogy.LogViewer.Template" Version="7.2.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Octokit" Version="13.0.1" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
