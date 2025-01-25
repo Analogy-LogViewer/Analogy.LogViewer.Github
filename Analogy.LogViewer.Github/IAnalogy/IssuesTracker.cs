@@ -1,4 +1,5 @@
 ﻿using Analogy.Interfaces;
+using Analogy.Interfaces.DataTypes;
 using Analogy.LogViewer.Github.DataTypes;
 using Analogy.LogViewer.Github.Managers;
 using Microsoft.Extensions.Logging;
@@ -66,7 +67,7 @@ namespace Analogy.LogViewer.Github.IAnalogy
                             Text = $"{entry.Title}{Environment.NewLine}URL: {entry.HtmlUrl}{Environment.NewLine}Body: {entry.Body}{Environment.NewLine}",
                             Level = AnalogyLogLevel.Information,
                             Source = repo.DisplayName,
-                            Date = entry.UpdatedAt?.DateTime ?? DateTime.MinValue,
+                            Date = entry.UpdatedAt ?? DateTimeOffset.MinValue,
                             FileName = entry.Url,
                             User = "Issue",
                             Module = $"Comments: {entry.Comments} ({entry.CommentsUrl})",

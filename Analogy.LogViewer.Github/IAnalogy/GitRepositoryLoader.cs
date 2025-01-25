@@ -1,5 +1,6 @@
 ﻿using Analogy.CommonUtilities.Github;
 using Analogy.Interfaces;
+using Analogy.Interfaces.DataTypes;
 using Analogy.LogViewer.Github.DataTypes;
 using Analogy.LogViewer.Github.Managers;
 using Microsoft.Extensions.Logging;
@@ -72,7 +73,7 @@ namespace Analogy.LogViewer.Github
                             $"{entry.TagName}{Environment.NewLine}{entry.Body}{Environment.NewLine}{string.Join(Environment.NewLine, entry.Assets.Select(e => e.Name))}",
                         Level = AnalogyLogLevel.Information,
                         Source = Repository.DisplayName,
-                        Date = entry.PublishedAt?.DateTime ?? DateTime.MinValue,
+                        Date = entry.PublishedAt ?? DateTimeOffset.MinValue,
                         FileName = entry.Url,
                         User = "Release",
                         Module = entry.Assets.Sum(a => a.DownloadCount).ToString(),
