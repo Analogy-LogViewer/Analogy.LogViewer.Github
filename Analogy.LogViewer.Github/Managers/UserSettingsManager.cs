@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System.IO;
 
 namespace Analogy.LogViewer.Github.Managers
@@ -20,7 +19,7 @@ namespace Analogy.LogViewer.Github.Managers
                 try
                 {
                     string data = File.ReadAllText(RepositoriesSettingFile);
-                    GithubSettings = JsonConvert.DeserializeObject<GithubSettings>(data);
+                    GithubSettings = System.Text.Json.JsonSerializer.Deserialize<GithubSettings>(data);
                 }
                 catch (Exception ex)
                 {
@@ -33,7 +32,7 @@ namespace Analogy.LogViewer.Github.Managers
         {
             try
             {
-                File.WriteAllText(RepositoriesSettingFile, JsonConvert.SerializeObject(GithubSettings));
+                File.WriteAllText(RepositoriesSettingFile, System.Text.Json.JsonSerializer.Serialize(GithubSettings));
             }
             catch (Exception ex)
             {
