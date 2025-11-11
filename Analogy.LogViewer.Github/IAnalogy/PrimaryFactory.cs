@@ -1,10 +1,11 @@
 ﻿using Analogy.Interfaces;
+using Analogy.Interfaces.DataTypes;
 using Analogy.LogViewer.Github.Properties;
 using System.Drawing;
 
 namespace Analogy.LogViewer.Github.IAnalogy
 {
-    public class PrimaryFactory : Template.PrimaryFactory
+    public class PrimaryFactory : Template.PrimaryFactoryWinForms
     {
         internal static Guid Id = new Guid("8064229A-2605-42FA-9E72-75444E4AB13F");
         public override Guid FactoryId { get; set; } = Id;

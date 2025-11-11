@@ -1,11 +1,13 @@
 ﻿using Analogy.Interfaces;
 using Analogy.Interfaces.DataTypes;
+using Analogy.Interfaces.WinForms;
+using Analogy.Interfaces.WinForms.DataTypes;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace Analogy.LogViewer.Github.GitHubActions
 {
-    public class GitFetchAction : IAnalogyCustomAction
+    public class GitFetchAction : IAnalogyCustomActionWinForms
     {
         public Action Action { get; } = () =>
          {
@@ -18,6 +20,12 @@ namespace Analogy.LogViewer.Github.GitHubActions
 
         public string Title { get; set; } = "Git Fetch";
         public AnalogyCustomActionType Type { get; } = AnalogyCustomActionType.BelongsToProvider;
-        public AnalogyToolTip? ToolTip { get; set; }
+        AnalogyToolTip? IAnalogyCustomAction.ToolTip
+        {
+            get => ToolTip;
+            set => ToolTip = value is AnalogyToolTipWinForms tool ? tool : null;
+        }
+
+        public AnalogyToolTipWinForms? ToolTip { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Analogy.LogViewer.Github.IAnalogy
 {
-    public class GitHubDataProviderSettings : Template.TemplateUserSettingsFactory
+    public class GitHubDataProviderSettings : Template.TemplateUserSettingsFactoryWinForms
     {
         public override Guid FactoryId { get; set; } = PrimaryFactory.Id;
         public override Guid Id { get; set; } = new Guid("2B46268B-0BB7-4D3B-9ED1-8E3C5B206F2F");
