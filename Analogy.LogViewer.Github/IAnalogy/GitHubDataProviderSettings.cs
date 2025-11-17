@@ -1,12 +1,13 @@
 ﻿using Analogy.Interfaces;
 using Analogy.LogViewer.Github.Managers;
+using Analogy.LogViewer.Template.WinForms;
 using Microsoft.Extensions.Logging;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace Analogy.LogViewer.Github.IAnalogy
 {
-    public class GitHubDataProviderSettings : Template.TemplateUserSettingsFactoryWinForms
+    public class GitHubDataProviderSettings : TemplateUserSettingsFactoryWinForms
     {
         public override Guid FactoryId { get; set; } = PrimaryFactory.Id;
         public override Guid Id { get; set; } = new Guid("2B46268B-0BB7-4D3B-9ED1-8E3C5B206F2F");

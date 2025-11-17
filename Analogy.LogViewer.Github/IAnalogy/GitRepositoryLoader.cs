@@ -4,6 +4,8 @@ using Analogy.Interfaces.DataTypes;
 using Analogy.Interfaces.WinForms;
 using Analogy.LogViewer.Github.DataTypes;
 using Analogy.LogViewer.Github.Managers;
+using Analogy.LogViewer.Template;
+using Analogy.LogViewer.Template.WinForms;
 using Microsoft.Extensions.Logging;
 using Octokit;
 using System.Drawing;
@@ -11,7 +13,7 @@ using System.Threading;
 
 namespace Analogy.LogViewer.Github
 {
-    public class GitRepositoryLoader : Template.OnlineDataProviderWinForms
+    public class GitRepositoryLoader : OnlineDataProviderWinForms
     {
         public override Guid Id { get; set; } = new Guid("B92CA79D-3621-416E-ADA7-52EEAF243759");
 
@@ -22,9 +24,6 @@ namespace Analogy.LogViewer.Github
 
         public override string? OptionalTitle { get; set; }
         public override Task<bool> CanStartReceiving() => Task.FromResult(true);
-
-        public override IAnalogyOfflineDataProviderWinForms? FileOperationsHandler { get; set; }
-
         private RepositorySettings Repository { get; }
         public override bool UseCustomColors { get; set; }
         public override IEnumerable<(string OriginalHeader, string ReplacementHeader)> GetReplacementHeaders()
