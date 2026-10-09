@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
@@ -15,15 +15,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Analogy.LogViewer.Interfaces" Version="9.0.6" />
-		<PackageReference Include="Analogy.LogViewer.Interfaces.WinForms" Version="9.0.6" />
-		<PackageReference Include="Analogy.CommonUtilities" Version="9.0.6" />
-		<PackageReference Include="Analogy.LogViewer.Template" Version="9.0.6" />
-		<PackageReference Include="Analogy.LogViewer.Template.WinForms" Version="9.0.6" />
-		<PackageReference Include="Octokit" Version="14.0.0" />
-		<PackageReference Include="System.Net.Http" Version="4.3.4" />
-		<PackageReference Include="System.Resources.Extensions" Version="10.0.9" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.301" PrivateAssets="All" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces" />
+		<PackageReference Include="Analogy.LogViewer.Interfaces.WinForms" />
+		<PackageReference Include="Analogy.CommonUtilities" />
+		<PackageReference Include="Analogy.LogViewer.Template" />
+		<PackageReference Include="Analogy.LogViewer.Template.WinForms" />
+		<PackageReference Include="Octokit" />
+		<PackageReference Include="System.Net.Http" />
+		<PackageReference Include="System.Resources.Extensions" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
 
 	</ItemGroup>
 
